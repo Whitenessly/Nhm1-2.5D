@@ -1,0 +1,111 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\csgdef{mark@title}{1}
+\orcidauthor{0000-0002-1825-0097}{Duc Anh}
+\csgdef{mark@corau1}{1}
+\csgdef{mark@fnau1}{1}
+\emailauthor{ducanh.robotics@ptit.edu.vn}{Duc Anh}
+\urlauthor{https://github.com/Whitenessly/Nhm2-2.5D}{Duc Anh}
+\creditauthor{Software, Methodology, Validation, Formal analysis, Writing - original draft}{Duc Anh}
+\csgdef{mark@fnau2}{1}
+\emailauthor{leloc.robotics@ptit.edu.vn}{Le Loc}
+\creditauthor{Data curation, Conceptualization, Investigation, Visualization}{Le Loc}
+\csgdef{mark@fnau3}{1}
+\emailauthor{tuelam.robotics@ptit.edu.vn}{Tue Lam}
+\creditauthor{Conceptualization, Software, Validation, Writing - review and editing}{Tue Lam}
+\citation{pengjiang2020,jiayangliu2023,endo2024}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\citation{pengjiang2020}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Overview of the RELLIS-3D Dataset}{2}{section.2}\protected@file@percent }
+\newlabel{sec:rellis3d}{{2}{2}{Overview of the RELLIS-3D Dataset}{section.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}2.5D Multi-Layer Terrain Dataset Generation Pipeline}{2}{section.3}\protected@file@percent }
+\newlabel{sec:pipeline}{{3}{2}{2.5D Multi-Layer Terrain Dataset Generation Pipeline}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Directory Structure and Output Data Components}{2}{subsection.3.1}\protected@file@percent }
+\newlabel{subsec:components}{{3.1}{2}{Directory Structure and Output Data Components}{subsection.3.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Core data layers extracted and stored in each 2.5D \texttt  {.npz} map archive.}}{2}{table.1}\protected@file@percent }
+\newlabel{tab:npz_components}{{1}{2}{Core data layers extracted and stored in each 2.5D \texttt {.npz} map archive}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Step 1: Point Cloud Extraction and Region of Interest (ROI) Filtering}{3}{subsection.3.2}\protected@file@percent }
+\newlabel{subsec:step1_roi}{{3.2}{3}{Step 1: Point Cloud Extraction and Region of Interest (ROI) Filtering}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Step 2: 2.5D Elevation Grid, Surface Roughness, and Slope Estimation}{3}{subsection.3.3}\protected@file@percent }
+\newlabel{subsec:step2_elevation}{{3.3}{3}{Step 2: 2.5D Elevation Grid, Surface Roughness, and Slope Estimation}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Step 3: Semantic Label Integration and Traversability Costmap Synthesis}{3}{subsection.3.4}\protected@file@percent }
+\newlabel{subsec:step3_costmap}{{3.4}{3}{Step 3: Semantic Label Integration and Traversability Costmap Synthesis}{subsection.3.4}{}}
+\citation{jiayangliu2023}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Lookup table mapping RELLIS-3D semantic IDs to baseline traversal costs.}}{4}{table.2}\protected@file@percent }
+\newlabel{tab:semantic_cost_table}{{2}{4}{Lookup table mapping RELLIS-3D semantic IDs to baseline traversal costs}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Experimental Extraction Results and ROS 2 RViz2 Validation}{4}{subsection.3.5}\protected@file@percent }
+\newlabel{subsec:rviz_results}{{3.5}{4}{Experimental Extraction Results and ROS 2 RViz2 Validation}{subsection.3.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Multilayer 2.5D raster representations generated from raw RELLIS-3D LiDAR and semantic annotations.}}{4}{figure.1}\protected@file@percent }
+\newlabel{fig:rellis_maps}{{1}{4}{Multilayer 2.5D raster representations generated from raw RELLIS-3D LiDAR and semantic annotations}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Theoretical Foundations of Native 2.5D Path Planning Algorithms}{4}{section.4}\protected@file@percent }
+\newlabel{sec:native_theory}{{4}{4}{Theoretical Foundations of Native 2.5D Path Planning Algorithms}{section.4}{}}
+\citation{geraldsteinbauer2025}
+\citation{fergusondavid2005}
+\citation{lorenzwellhausen2023}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Baseline A* path planning validation and real-time visualization in ROS 2 RViz2.}}{5}{figure.2}\protected@file@percent }
+\newlabel{fig:rviz_demo}{{2}{5}{Baseline A* path planning validation and real-time visualization in ROS 2 RViz2}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}T-Hybrid A* (Liu et al., 2023)}{5}{subsection.4.1}\protected@file@percent }
+\newlabel{subsec:thybrid_astar}{{4.1}{5}{T-Hybrid A* (Liu et al., 2023)}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}2.5D RRT* (Steinbauer \& Koczka, 2025)}{5}{subsection.4.2}\protected@file@percent }
+\newlabel{subsec:rrt_star_25d}{{4.2}{5}{2.5D RRT* (Steinbauer \& Koczka, 2025)}{subsection.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}2.5D Field D* (Ferguson \& Stentz, 2005)}{5}{subsection.4.3}\protected@file@percent }
+\newlabel{subsec:field_dstar}{{4.3}{5}{2.5D Field D* (Ferguson \& Stentz, 2005)}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}2.5D LazyPRM* / ArtPlanner (Wellhausen \& Hutter, 2023)}{5}{subsection.4.4}\protected@file@percent }
+\newlabel{subsec:artplanner}{{4.4}{5}{2.5D LazyPRM* / ArtPlanner (Wellhausen \& Hutter, 2023)}{subsection.4.4}{}}
+\citation{jiayangliu2023}
+\citation{geraldsteinbauer2025}
+\citation{fergusondavid2005}
+\citation{lorenzwellhausen2023}
+\citation{jiayangliu2023}
+\citation{geraldsteinbauer2025}
+\citation{fergusondavid2005}
+\citation{lorenzwellhausen2023}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experimental Benchmarking and Dataset Quality Validation}{6}{section.5}\protected@file@percent }
+\newlabel{sec:experiments}{{5}{6}{Experimental Benchmarking and Dataset Quality Validation}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Experimental Setup and Evaluation Metrics}{6}{subsection.5.1}\protected@file@percent }
+\newlabel{subsec:exp_setup}{{5.1}{6}{Experimental Setup and Evaluation Metrics}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Quantitative Benchmark Results}{6}{subsection.5.2}\protected@file@percent }
+\newlabel{subsec:benchmark_results}{{5.2}{6}{Quantitative Benchmark Results}{subsection.5.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Quantitative performance benchmark of native 2.5D path planners on the generated terrain dataset (Extracted directly from automated test logs in \texttt  {4. logs/}).}}{6}{table.3}\protected@file@percent }
+\newlabel{tab:benchmark_results}{{3}{6}{Quantitative performance benchmark of native 2.5D path planners on the generated terrain dataset (Extracted directly from automated test logs in \texttt {4. logs/})}{table.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Computational Efficiency and Runtime Analysis}{6}{subsection.5.3}\protected@file@percent }
+\newlabel{subsec:perf_analysis}{{5.3}{6}{Computational Efficiency and Runtime Analysis}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Trajectory Quality and Vehicle Attitude Stability Analysis}{6}{subsection.5.4}\protected@file@percent }
+\newlabel{subsec:stability_analysis}{{5.4}{6}{Trajectory Quality and Vehicle Attitude Stability Analysis}{subsection.5.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Visual comparison of planned 3D trajectories (left) and 2D Traversability costmaps with path corridors (right) across all four planners on Map \texttt  {000000.npz}.}}{7}{figure.3}\protected@file@percent }
+\newlabel{fig:map_000000}{{3}{7}{Visual comparison of planned 3D trajectories (left) and 2D Traversability costmaps with path corridors (right) across all four planners on Map \texttt {000000.npz}}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Visual comparison of planned 3D trajectories (left) and 2D Traversability costmaps on the steep narrow canyon topography of Map \texttt  {000001.npz}.}}{7}{figure.4}\protected@file@percent }
+\newlabel{fig:map_000001}{{4}{7}{Visual comparison of planned 3D trajectories (left) and 2D Traversability costmaps on the steep narrow canyon topography of Map \texttt {000001.npz}}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Adaptability to Narrow Passages and Complex Topography (Map 000001)}{7}{subsection.5.5}\protected@file@percent }
+\newlabel{subsec:narrow_passage_analysis}{{5.5}{7}{Adaptability to Narrow Passages and Complex Topography (Map 000001)}{subsection.5.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Evaluation of the 2.5D Terrain Dataset Quality}{7}{subsection.5.6}\protected@file@percent }
+\newlabel{subsec:dataset_quality_eval}{{5.6}{7}{Evaluation of the 2.5D Terrain Dataset Quality}{subsection.5.6}{}}
+\bibstyle{cas-model2-names}
+\bibdata{refs}
+\bibcite{endo2024}{{1}{2024}{{Endo et~al.}}{{Endo, Yamane, Shirafuji and Ota}}}
+\bibcite{fergusondavid2005}{{2}{2005}{{Ferguson and Stentz}}{{}}}
+\bibcite{pengjiang2020}{{3}{2020}{{Jiang et~al.}}{{Jiang, Osteen, Wigness and Saripalli}}}
+\bibcite{geraldsteinbauer2025}{{4}{2025}{{Koczka and Steinbauer-Wagner}}{{}}}
+\bibcite{jiayangliu2023}{{5}{2023}{{Liu et~al.}}{{Liu, Wang, Jiang, Zhang and Cheng}}}
+\bibcite{lorenzwellhausen2023}{{6}{2023}{{Wellhausen and Hutter}}{{}}}
+\csxdef{lastpage}{8}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion and Future Work}{8}{section.6}\protected@file@percent }
+\newlabel{sec:conclusion}{{6}{8}{Conclusion and Future Work}{section.6}{}}
+\gdef \@abspage@last{8}

@@ -1,0 +1,68 @@
+\begin{thebibliography}{6}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Endo et~al.(2024)Endo, Yamane, Shirafuji and Ota}]{endo2024}
+\bibinfo{author}{Endo, M.}, \bibinfo{author}{Yamane, K.},
+  \bibinfo{author}{Shirafuji, S.}, \bibinfo{author}{Ota, J.},
+  \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Benchnav: Simulation platform for off-road
+  navigation}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2409.12345} \URLprefix
+  \url{https://github.com/masafumiendo/benchnav}.
+%Type = Article
+\bibitem[{Ferguson and Stentz(2005)}]{fergusondavid2005}
+\bibinfo{author}{Ferguson, D.}, \bibinfo{author}{Stentz, A.},
+  \bibinfo{year}{2005}.
+\newblock \bibinfo{title}{Field d*: An interpolation-based path planner and
+  replanner}.
+\newblock \bibinfo{journal}{Robotics Research: The Eleventh International
+  Symposium} , \bibinfo{pages}{239--253}.
+%Type = Article
+\bibitem[{Jiang et~al.(2020)Jiang, Osteen, Wigness and
+  Saripalli}]{pengjiang2020}
+\bibinfo{author}{Jiang, P.}, \bibinfo{author}{Osteen, P.},
+  \bibinfo{author}{Wigness, M.}, \bibinfo{author}{Saripalli, S.},
+  \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Rellis-3d dataset: Data, benchmarks and analysis}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2011.12954} \URLprefix
+  \url{https://arxiv.org/abs/2011.12954}.
+%Type = Phdthesis
+\bibitem[{Koczka and Steinbauer-Wagner(2025)}]{geraldsteinbauer2025}
+\bibinfo{author}{Koczka, A.}, \bibinfo{author}{Steinbauer-Wagner, G.},
+  \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{Investigating 2.5D path-planning methods for
+  autonomous mobile robots in off-road scenarios}.
+\newblock Ph.D. thesis. Graz University of Technology.
+\newblock \URLprefix
+  \url{https://repository.tugraz.at/publications/marc21/9yba9-avz88/files/89290.pdf}.
+%Type = Article
+\bibitem[{Liu et~al.(2023)Liu, Wang, Jiang, Zhang and Cheng}]{jiayangliu2023}
+\bibinfo{author}{Liu, J.}, \bibinfo{author}{Wang, Z.}, \bibinfo{author}{Jiang,
+  Y.}, \bibinfo{author}{Zhang, X.}, \bibinfo{author}{Cheng, L.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Hybrid map-based path planning for robot navigation
+  in unstructured environments}.
+\newblock \bibinfo{journal}{IEEE Robotics and Automation Letters (RA-L)}
+  \bibinfo{volume}{8}, \bibinfo{pages}{2432--2439}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2303.05304}.
+%Type = Article
+\bibitem[{Wellhausen and Hutter(2023)}]{lorenzwellhausen2023}
+\bibinfo{author}{Wellhausen, L.}, \bibinfo{author}{Hutter, M.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Artplanner: Robust legged robot navigation in the
+  field}.
+\newblock \bibinfo{journal}{Field Robotics} \bibinfo{volume}{3},
+  \bibinfo{pages}{477--500}.
+
+\end{thebibliography}
