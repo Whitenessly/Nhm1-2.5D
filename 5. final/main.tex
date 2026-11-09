@@ -1,11 +1,10 @@
-%% 
-%% Copyright 2019-2024 Elsevier Ltd
-%% 
-%% This file is part of the 'CAS Bundle'.
-%% --------------------------------------
-%% 
+%%
+%% Báo cáo Nghiên cứu Khoa học Hợp nhất Hai Giai đoạn
+%% Mẫu trình bày Elsevier CAS Single-Column (cas-sc)
+%%
 \documentclass[a4paper,fleqn]{cas-sc}
 
+\usepackage[utf8]{vietnam}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -21,380 +20,501 @@
 \tsc{WGM}
 \tsc{QE}
 
+% Ẩn dòng chữ "Preprint submitted to Elsevier" ở chân trang trái
+\ExplSyntaxOn
+\cs_set:Npn \__first_footerline: {\mbox{}}
+\ExplSyntaxOff
 
 \begin{document}
 \let\WriteBookmarks\relax
 \def\floatpagepagefraction{1}
 \def\textpagefraction{.001}
 
-% Short title & Short authors for page headers
-\shorttitle{2.5D Terrain Dataset Generation from RELLIS-3D \& Native 2.5D Path Planning Benchmark}
-\shortauthors{Duc Anh et~al.}
+% Tiêu đề rút gọn & Tên tác giả trên tiêu đề trang
+\shorttitle{Mô hình hóa Địa hình 2.5D từ RELLIS-3D \& Đánh giá Quy hoạch Đường đi 2.5D}
+\shortauthors{Đức Anh Nguyễn và cs.}
 
-% Main Title
-\title [mode = title]{A Comprehensive Study on 2.5D Terrain Dataset Generation from RELLIS-3D and Benchmark Evaluation of Native 2.5D Autonomous Path Planning}
+% Tiêu đề chính
+\title[mode = title]{Mô hình hóa Địa hình 2.5D Đa tầng Toàn trình từ Dữ liệu LiDAR RELLIS-3D và Đánh giá So sánh Các Thuật toán Quy hoạch Đường đi 2.5D Nguyên bản ngoài Đường trường}
 
 \tnotemark[1]
-\tnotetext[1]{This technical report presents an end-to-end framework ranging from raw 3D LiDAR point cloud preprocessing into 2.5D digital elevation maps to experimental benchmarking of native 2.5D path planning algorithms for off-road autonomous ground vehicles.}
+\tnotetext[1]{Báo cáo nghiên cứu kỹ thuật hợp nhất: (i) tiền xử lý đám mây điểm LiDAR 3D thô, khôi phục vùng mù cảm biến và nội suy độ cao EDT thành bộ dữ liệu địa hình 2.5D đa tầng, kết hợp với (ii) đồng bộ chuẩn hóa hệ tọa độ và đánh giá thực nghiệm cô lập đa hạt giống (5-seed) trên các thuật toán quy hoạch chuyển động 2.5D động học và hình học.}
 
-% Authors & Affiliations
-\author[1]{Duc Anh}[orcid=0000-0002-1825-0097]
+% Tác giả & Đơn vị công tác
+\author[1]{{\DJ}ức Anh Nguyễn}[orcid=0000-0002-1825-0097]
 \cormark[1]
 \fnmark[1]
-\ead{ducanh.robotics@ptit.edu.vn}
+\ead{anhnd.b24cn027@stu.ptit.edu.vn}
 \ead[url]{https://github.com/Whitenessly/Nhm1-2.5D}
-\credit{Software, Methodology, Validation, Formal analysis, Writing - original draft}
 
-\author[1]{Le Loc}
+\author[1]{Lộc Lê}
 \fnmark[1]
-\ead{leloc.robotics@ptit.edu.vn}
-\credit{Data curation, Conceptualization, Investigation, Visualization}
+\ead{<mail>@stu.ptit.edu.vn}
+\ead[url]{https://github.com/Jikay71/Building-a-2.5D-Dataset-from-RELLIS-3D-for-Path-Planning}
 
-\author[1]{Tue Lam}
+\author[1]{Lâm Tuệ}
 \fnmark[1]
-\ead{tuelam.robotics@ptit.edu.vn}
-\credit{Conceptualization, Software, Validation, Writing - review and editing}
+\ead{<mail>@stu.ptit.edu.vn}
 
-\affiliation[1]{organization={Faculty of Information Technology, Posts and Telecommunications Institute of Technology (PTIT)},
-            addressline={Km 10, Nguyen Trai Road, Ha Dong District}, 
-            city={Hanoi},
-            postcode={100000}, 
-            country={Vietnam}}
+\affiliation[1]{organization={Khoa Công nghệ Thông tin 1, Học viện Công nghệ Bưu chính Viễn thông (PTIT)},
+            addressline={Km 10, Đường Nguyễn Trãi, Quận Hà Đông},
+            city={Hà Nội},
+            postcode={100000},
+            country={Việt Nam}}
 
-\cortext[1]{Corresponding author.}
-\fntext[1]{Undergraduate researchers in Information Technology, Posts and Telecommunications Institute of Technology (PTIT).}
+\cortext[1]{Tác giả liên hệ (Corresponding author).}
+\fntext[1]{Nhóm nghiên cứu sinh viên ngành Công nghệ Thông tin, Học viện Công nghệ Bưu chính Viễn thông (PTIT).}
 
-% Abstract
-\begin{abstract}
-Off-road autonomous navigation requires unmanned ground vehicles (UGVs) and legged robots to reliably perceive complex topography, navigate steep slopes, and accurately distinguish hazardous terrains such as mud pits, water puddles, and dense vegetation. This paper presents a complete, two-phase research and experimental pipeline:
-\textbf{(1) 2.5D Multi-Layer Terrain Dataset Generation from RELLIS-3D:} We develop an automated processing pipeline that transforms raw 3D LiDAR point clouds (\texttt{.bin}) and semantic annotations (\texttt{.label}) into structured 2.5D grid representations stored in compressed \texttt{.npz} format, encompassing 25th-percentile digital elevation models (DEM), majority-voted semantic layers, spatial slope, surface roughness, traversability costmaps, and real-time visualization via ROS 2 RViz2.
-\textbf{(2) Native 2.5D Kinodynamic Path Planning and Dataset Quality Benchmark:} We rigorously evaluate the fidelity and utility of our generated 2.5D representations across four state-of-the-art native 2.5D path planning algorithms: T-Hybrid A*, 2.5D RRT*, 2.5D Field D*, and 2.5D LazyPRM* (ArtPlanner).
-Extensive benchmarking on $40.0\text{m} \times 30.0\text{m}$ complex terrain scenes ($0.2\text{m}$ resolution) demonstrates that 2.5D Field D* and 2.5D LazyPRM* achieve superior real-time execution speeds ($0.461\text{s} - 0.530\text{s}$), whereas T-Hybrid A* and 2.5D RRT* guarantee absolute chassis stability and zero rollover risk ($\bar{\tau} = 1.000, \text{Max Roll} = 0.00^\circ$). The proposed framework provides an effective and reproducible foundation for off-road robotics and digital terrain modeling.
+% Tóm tắt
+\begin{abstract}[T\,Ó\,M\ \ T\,Ắ\,T]
+Điều hướng tự hành ngoài đường trường (off-road) đòi hỏi biểu diễn địa hình vừa nắm bắt chính xác hình học bề mặt 3D liên tục vừa bảo toàn ngữ nghĩa vật lý mà không gây bùng nổ bộ nhớ thể tích. Nghiên cứu này trình bày khung hệ thống hai giai đoạn kết nối mô hình hóa độ cao số 2.5D từ dữ liệu LiDAR \textbf{RELLIS-3D} thô với bộ công cụ đánh giá cô lập đa hạt giống (multi-seed benchmark) cho các thuật toán quy hoạch chuyển động 2.5D nguyên bản.
+Ở \textbf{Giai đoạn 1 (\texttt{rellis\_25d\_generator})}, quy trình vector hóa trên NumPy/SciPy chiếu đám mây điểm Ouster OS1-64 64 tia (\texttt{.bin}) và nhãn SemanticKITTI (\texttt{.label}) lên lưới BEV $40.0\,\text{m} \times 30.0\,\text{m}$ ($0.2\,\text{m/ô}$). Nhằm khắc phục sai lệch độ cao do tán cây và các vách đá giả giữa những vòng quét thưa trên bản đồ 2.5D chưa nội suy, quy trình thực hiện: lọc hộp bao thân xe Polaris W-MRZR, trích độ cao mặt đất cực tiểu ($z_{\min}$), bầu chọn đa số đóng gói 16-bit ưu tiên an toàn cho các lớp cấm đi, ước lượng vùng mù tầm gần ($R < 3.5\,\text{m}$), lấp đầy ô khuyết bằng biến đổi khoảng cách Euclid 2D (EDT), tính độ dốc làm mượt Gaussian ($\sigma = 1.2$), và tổng hợp costmap phình hóa Manhattan kiểm chứng trên ROS 2 Jazzy. Trên chuỗi khung hình \texttt{000001}--\texttt{000005}, kỹ thuật bù vùng mù và nội suy EDT giảm tỷ lệ ô rỗng từ $77.03\%$ xuống $0.04\%$ và giảm vật cản hình học giả từ $37.50\%$ xuống $6.39\%$.
+Ở \textbf{Giai đoạn 2 (\texttt{path\_planning\_benchmark})}, \texttt{MapLoader} tự động đồng bộ các tệp \texttt{.npz}/\texttt{.pt} về hệ tọa độ chuẩn $(150 \times 200)$ Đông--Bắc trong \texttt{HybridMap}, dung hợp ràng buộc tư thế hình học (pháp tuyến $SO(3)$ và chân đế 3 bánh xe) với trường phạt ngữ nghĩa trên bốn thuật toán: \textbf{T-Hybrid A*}, \textbf{2.5D RRT*}, \textbf{2.5D Field D*} (lưới 16 hướng) và \textbf{2.5D LazyPRM*} (ArtPlanner). Thực nghiệm cô lập 5 hạt giống chứng minh việc khắc phục bản đồ Giai đoạn 1 giúp đảo ngược sự thất bại của \textbf{T-Hybrid A*} khi bật ngữ nghĩa ($0\% \to 100\%$ thành công trong $0.193\,\text{s}$) và giảm $74.9\%$ góc lật ngang cực đại của \textbf{2.5D Field D*} ($25.35^\circ \to 6.37^\circ$). Hơn nữa, dung hợp ngữ nghĩa--hình học triệt tiêu hoàn toàn va chạm vùng cấm ($\text{Lethal Hits} = 0.00$) trong kịch bản người đi bộ ven đường và giảm $53.6\%$ chi phí rủi ro của \textbf{T-Hybrid A*} ($129.3 \to 60.0$) trong hành lang rừng rậm, trong khi các thuật toán lấy mẫu ngẫu nhiên đồng đều gặp bế tắc tại khe hẹp ngữ nghĩa ($0\%$ thành công).
 \end{abstract}
 
-% Keywords
-\begin{keywords}
-RELLIS-3D \sep Digital Elevation Model (DEM) \sep 2.5D Path Planning \sep Traversability Costmap \sep Semantic Terrain Analysis \sep Off-Road Navigation \sep ROS 2 RViz2
+% Từ khóa
+\begin{keywords}[Từ khóa]
+RELLIS-3D \sep Bản đồ độ cao số 2.5D \sep Nội suy EDT \sep Độ thuận lợi ngữ nghĩa \sep Quy hoạch đường đi 2.5D \sep Robot tự hành ngoài đường trường \sep ROS 2 Jazzy
 \end{keywords}
 
 \maketitle
 
-\section{Introduction}
+\section{Giới thiệu}
 \label{sec:intro}
 
-Path planning is a fundamental capability that governs both the autonomy and operational safety of mobile robots. In structured indoor and urban environments, the operational surface is predominantly planar, allowing standard 2D occupancy grid maps to suffice. Conversely, in unstructured off-road environments—such as forests, agricultural fields, construction sites, and disaster search-and-rescue zones—robots continuously encounter severe undulations, steep embankments, mud pits, water bodies, dense thickets, and rugged rock formations \citep{pengjiang2020, jiayangliu2023, endo2024}.
+Bài toán quy hoạch đường đi (path planning) trong môi trường địa hình tự nhiên không có cấu trúc đặt ra những thách thức về nhận thức môi trường và điều khiển chuyển động phức tạp hơn rất nhiều so với giao thông đô thị phẳng. Các phương tiện tự hành mặt đất (UGV) hoạt động trên địa hình rừng núi, bãi bùn lầy, đường mòn phủ cỏ rậm và sườn đồi dốc phải đối mặt đồng thời với hình thái địa hình 3D khắc nghiệt—độ nghiêng sườn ngang gây lật xe, hào rãnh sâu, bậc đá—cùng các hiểm họa ngữ nghĩa không thể phân biệt bằng hình học thuần túy như vũng nước sâu, bùn lún hay bụi rậm vốn có bề mặt phẳng khi nhìn từ cảm biến khoảng cách \citep{pengjiang2020, jiayangliu2023, endo2024}.
 
-Standard 2D flat representations discard vertical elevation and gradient profiles, preventing the vehicle from distinguishing between a gentle traversable slope and a precipitous cliff capable of causing a catastrophic rollover. On the other hand, full 3D point cloud or dense 3D voxel representations entail substantial memory footprints and high computational complexity, frequently surpassing the real-time processing capabilities of embedded onboard computers.
+Bản đồ lưới chiếm dụng 2D cổ điển loại bỏ hoàn toàn thông tin chiều cao, khiến bộ lập kế hoạch không thể phân biệt giữa một mặt đường nhựa thoai thoải với một bờ dốc nghiêng $35^\circ$ vượt ngưỡng lật tĩnh của xe. Ngược lại, các biểu diễn không gian 3D toàn phần như cây bát phân (Octree) hoặc lưới Voxel dày đặc lại tiêu tốn dung lượng bộ nhớ lớn và chi phí kiểm tra va chạm cao, gây cản trở việc tìm kiếm động học thời gian thực trên máy tính nhúng. \textbf{Bản đồ lưới 2.5D đa tầng} \citep{fankhauser2016grid} mang lại giải pháp cân bằng tối ưu nhờ lưu trữ trường độ cao $Z(x, y)$ cùng các thuộc tính dẫn xuất (độ dốc, độ gồ ghề, nhãn ngữ nghĩa và chi phí tổng hợp) trên một lưới ngang có độ phân giải cố định.
 
-Consequently, the \textbf{2.5D Digital Elevation Model (2.5D DEM)} enriched with multi-layer geometric and semantic attributes emerges as the optimal compromise between fidelity and computational efficiency. This technical report presents a comprehensive, two-stage research and experimental framework:
+Tuy nhiên, các khung quét LiDAR 3D đơn lẻ trong những bộ dữ liệu thực địa công khai như \textbf{RELLIS-3D} \citep{pengjiang2020} không thể lượng tử hóa trực tiếp thành các ô độ cao thô nếu thiếu các bước xử lý hình học chuyên biệt. Ở khu vực lân cận khung gầm robot, vị trí lắp đặt cảm biến trên cao tạo ra một vùng mù hình tròn không có tia phản hồi mặt đất, trong khi độ phân kỳ dọc giữa các chùm tia laser tạo nên các vòng cung điểm thưa xen kẽ các dải ô trống ở cự ly trung bình. Việc gán mặc định độ cao $z = 0\,\text{m}$ cho các ô trống sẽ tạo ra các vách dựng đứng nhân tạo giữa hai vòng quét liên tiếp, làm biến dạng hoàn toàn phép tính đạo hàm độ dốc và làm tê liệt các bộ quy hoạch quỹ đạo động học. Tương tự, việc lấy trung bình cộng hoặc phân vị thô trong mỗi ô mà không lọc bỏ tia phản xạ từ vòm cây phía trên sẽ làm sai lệch cao độ mặt đất, đồng thời việc đánh giá nhiều thuật toán quy hoạch trên cùng một đối tượng bản đồ dùng chung mà không cô lập trạng thái giữa các lần chạy sẽ gây nhiễm bẩn kết quả thực nghiệm.
+
+Nhằm giải quyết triệt để các khoảng trống kỹ thuật trên trong một kiến trúc phần mềm thống nhất và có khả năng tái lập hoàn toàn, báo cáo này trình bày khung hệ thống hai giai đoạn toàn trình (Hình~\ref{fig:architecture}) với ba đóng góp cốt lõi:
 \begin{enumerate}
-    \item \textbf{Phase 1 -- 2.5D Dataset Generation from RELLIS-3D:} We design and implement an end-to-end software pipeline that ingests raw 3D LiDAR point clouds and semantic segmentations from the RELLIS-3D dataset, maps them into multi-attribute 2.5D grid representations (Elevation, Semantics, Slope, Roughness, Costmap, and Valid Mask) stored in \texttt{.npz} format, and validates them via ROS 2 RViz2.
-    \item \textbf{Phase 2 -- Native 2.5D Trajectory Planning Benchmark \& Dataset Quality Validation:} We deploy and systematically benchmark four state-of-the-art native 2.5D planning algorithms (T-Hybrid A*, 2.5D RRT*, 2.5D Field D*, and 2.5D LazyPRM*) on the synthesized 2.5D terrain maps, assessing planning latency, 3D Euclidean path length, vehicle attitude stability (Roll/Pitch), and steep terrain traversability.
+    \item \textbf{Trích xuất Bản đồ Địa hình 2.5D Đa tầng kết hợp Khôi phục Vùng mù và Nội suy EDT:} Được hiện thực hóa trong gói \texttt{rellis\_25d\_generator} thuộc kho mã nguồn Giai đoạn 1 của nhóm (\url{https://github.com/Jikay71/Building-a-2.5D-Dataset-from-RELLIS-3D-for-Path-Planning}), chúng tôi xây dựng chuỗi xử lý vector hóa gồm: cắt lọc hộp bao thân xe Polaris W-MRZR, trích xuất cao độ cực tiểu $z_{\min}$ chống nhiễu tán cây, bầu chọn ngữ nghĩa đóng gói 16-bit ưu tiên an toàn, ước lượng cao độ vùng mù cảm biến tầm gần ($R < 3.5\,\text{m}$), nội suy láng giềng gần nhất không còn ô trống bằng phép biến đổi khoảng cách Euclid (EDT), tính độ dốc sau làm mượt Gaussian ($\sigma = 1.2$), phình hóa an toàn khoảng cách Manhattan 2 ô và kiểm chứng trực tiếp trên nền tảng \textbf{ROS 2 Jazzy} (\texttt{rellis\_25d\_rviz}).
+    \item \textbf{Cầu nối Chuẩn hóa Hệ tọa độ và Kiến trúc HybridMap Cô lập:} Được hiện thực hóa trong gói \texttt{path\_planning\_benchmark}, chúng tôi thiết kế cơ chế tự động nhận diện lược đồ dữ liệu và biến đổi ma trận vector hóa trong \texttt{MapLoader} nhằm ánh xạ chính xác lưới cảm biến BEV $(200 \times 150)$ sang lưới quy hoạch chuẩn Đông--Bắc $(150 \times 200)$, kết hợp khởi tạo độc lập \texttt{HybridMap} cho từng lượt chạy nhằm dung hợp pháp tuyến $SO(3)$, mô hình chân đế 3 bánh xe và trường hiểm họa ngữ nghĩa.
+    \item \textbf{Thực nghiệm Đối sánh Đa kịch bản và Đánh giá 5 Hạt giống (5-Seed Benchmark):} Chúng tôi đánh giá định lượng bốn thuật toán 2.5D nguyên bản—\textbf{T-Hybrid A*} \citep{jiayangliu2023}, \textbf{2.5D RRT*} \citep{geraldsteinbauer2025}, \textbf{2.5D Field D*} \citep{fergusondavid2005}, và \textbf{2.5D LazyPRM* / ArtPlanner} \citep{lorenzwellhausen2023}—qua ba tuyến kịch bản: (i) đối sánh bản đồ chưa nội suy và bản đồ đã xử lý vùng mù/EDT trên cùng khung quét, (ii) né tránh người đi bộ và vũng nước trên mặt đường phẳng, và (iii) vượt đường mòn rừng rậm cùng hành lang chướng ngại vật dày đặc giữa hai chế độ Hình học thuần túy (Geometry-Only) và Kết hợp Ngữ nghĩa--Hình học (Semantic+Geo).
 \end{enumerate}
 
-\section{Overview of the RELLIS-3D Dataset}
-\label{sec:rellis3d}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig1_pipeline_architecture.png}
+  \caption{Kiến trúc hệ thống hai giai đoạn toàn trình kết nối bộ sinh dữ liệu \texttt{rellis\_25d\_generator} (Giai đoạn 1: mô hình hóa cảm biến sang bản đồ 2.5D) qua cầu nối chuẩn hóa ma trận ($\text{arr}[::-1, ::-1]^T$) tới \texttt{path\_planning\_benchmark} (Giai đoạn 2: đánh giá đa thuật toán quy hoạch cô lập đa hạt giống).}
+  \label{fig:architecture}
+\end{figure}
 
-The RELLIS-3D dataset \citep{pengjiang2020} is a multimodal benchmark collected in unstructured off-road environments at the Rellis Campus of Texas A\&M University. It features synchronized RGB imagery, GPS/IMU inertial measurements, 64-beam Ouster OS1-64 LiDAR point clouds, and fine-grained point-wise semantic segmentation labels.
+Phần còn lại của báo cáo được tổ chức như sau: Mục~\ref{sec:rellis_stream} mô tả luồng dữ liệu cảm biến RELLIS-3D, hệ thống phân loại ngữ nghĩa và quy ước hệ trục tọa độ. Mục~\ref{sec:phase1} trình bày chi tiết quy trình xây dựng tập dữ liệu 2.5D ở Giai đoạn 1 và kiểm chứng trên ROS 2. Mục~\ref{sec:phase2_theory} mô hình hóa cầu nối chuẩn hóa dữ liệu, mô hình độ thuận lợi di chuyển \texttt{HybridMap} và bốn thuật toán quy hoạch đường đi 2.5D. Mục~\ref{sec:protocol} định nghĩa bộ chỉ số đánh giá và giao thức thực nghiệm 5-seed, tiếp nối bởi kết quả định lượng và phân tích chuyên sâu tại Mục~\ref{sec:results} cùng kết luận tại Mục~\ref{sec:conclusion}.
 
-In this investigation, two primary data streams are utilized:
+\section{Luồng dữ liệu cảm biến RELLIS-3D và Quy ước hệ tọa độ}
+\label{sec:rellis_stream}
+
+Bộ dữ liệu \textbf{RELLIS-3D} \citep{pengjiang2020} được thu thập trên các cung đường sỏi đá, đồng cỏ, vũng bùn và đường mòn xuyên rừng tại khuôn viên Rellis thuộc Đại học Texas A\&M bằng nền tảng xe địa hình Clearpath/Polaris W-MRZR trang bị cảm biến LiDAR quay 64 kênh Ouster OS1-64.
+
+\subsection{Đám mây điểm thô và Nhãn ngữ nghĩa điểm}
+\label{subsec:raw_data}
+Mỗi khung quét LiDAR bao gồm hai luồng tệp nhị phân đồng bộ:
 \begin{enumerate}
-    \item \textbf{LiDAR Point Clouds in Binary Format (\texttt{.bin}):} Each reflected laser return $p_i$ is represented as a 4D feature vector:
+    \item \textbf{Hình học đám mây điểm (\texttt{.bin}):} Lưu trữ dưới dạng mảng số thực \texttt{float32} định hình kích thước $N \times 4$, trong đó mỗi điểm $p_k = (x_k, y_k, z_k, \text{intensity}_k)$ được biểu diễn trong hệ trục tọa độ cục bộ của cảm biến ($+x$ hướng về phía trước mũi xe, $+y$ hướng sang trái, $+z$ hướng thẳng đứng lên trên).
+    \item \textbf{Nhãn ngữ nghĩa theo từng điểm (\texttt{.label}):} Lưu trữ theo định dạng số nguyên \texttt{uint32} chuẩn SemanticKITTI \citep{behley2019iccv}, trong đó 16 bit thấp mã hóa mã lớp địa hình/vật thể và 16 bit cao mã hóa định danh thực thể (instance ID):
     \begin{equation}
-        p_i = (x_i, y_i, z_i, \text{intensity}_i)
+        c_k = \text{label}_{\text{raw}, k} \ \& \ \text{0xFFFF}.
     \end{equation}
-    where $(x_i, y_i)$ denotes horizontal spatial coordinates, $z_i$ represents vertical elevation, and $\text{intensity}_i$ corresponds to the calibrated reflection intensity.
-    \item \textbf{Semantic Annotation Labels (\texttt{.label}):} Each point contains a standard uint32 semantic class identifier denoting its physical terrain class or obstacle category (e.g., dirt, grass, tree, pole, water, mud, fence, bush, log).
 \end{enumerate}
 
-\section{2.5D Multi-Layer Terrain Dataset Generation Pipeline}
-\label{sec:pipeline}
+Bảng~\ref{tab:semantic_costs} liệt kê đầy đủ 20 lớp ngữ nghĩa hoạt động trong RELLIS-3D đồng thời đối chiếu bảng chi phí di chuyển và tập vật cản cấm đi giữa phiên bản bản đồ thô ban đầu (V1, chưa nội suy) với phiên bản hoàn thiện Giai đoạn 1 (V2, đã bù vùng mù và nội suy EDT). Đáng chú ý, phiên bản thô V1 ban đầu gán lớp \texttt{bush} (bụi cây, ID~19) làm tường chắn tuyệt đối nhưng lại bỏ sót lớp \texttt{object} (vật thể, ID~9) khỏi tập vật cản cứng và gán chi phí rất cao ($150$) cho lớp \texttt{void} (ô trống, ID~0). Trong phiên bản hoàn thiện Giai đoạn 1 (V2), lớp \texttt{object} (ID~9) được đưa vào tập nguy hiểm chết người \texttt{LETHAL\_CLASSES} (chi phí $255$), trong khi \texttt{bush} (ID~19) được điều chỉnh thành chi phí phạt mềm có thể đi qua (chi phí $120$) nhằm cho phép xe lách qua rìa các bụi cây thấp khi đường mòn bị thu hẹp mà không làm bít tắc toàn bộ lối đi. Trong \texttt{HybridMap} (Giai đoạn 2), tập \texttt{LETHAL\_CLASSES} $= \{4, 5, 6, 8, 9, 12, 15, 17, 18, 27\}$ được áp dụng thống nhất khi bật chế độ ngữ nghĩa.
 
-\subsection{Directory Structure and Output Data Components}
-\label{subsec:components}
-The processing pipeline ingests sequential LiDAR scans (\texttt{000000.bin}, \texttt{000001.bin}, \dots) along with their corresponding label files (\texttt{000000.label}, \texttt{000001.label}, \dots) and produces individual compressed \texttt{.npz} files in the target directory. Table \ref{tab:npz_components} summarizes the six core data layers encapsulated within each 2.5D map archive.
-
-\begin{table}[width=\linewidth,cols=3,pos=htbp]
-\caption{Core data layers extracted and stored in each 2.5D \texttt{.npz} map archive.}
-\label{tab:npz_components}
-\begin{tabular*}{\tblwidth}{@{} LLL@{} }
+\begin{table}[width=\linewidth,pos=htbp]
+\caption{Bảng tra cứu 20 lớp ngữ nghĩa RELLIS-3D đối chiếu chi phí di chuyển giữa Bản đồ hoàn thiện Giai đoạn 1 (V2) và Bản đồ thô ban đầu (V1) ($0$: dễ đi nhất; $255$: vật cản cấm đi).}
+\label{tab:semantic_costs}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{rlcc|rlcc}
 \toprule
-\textbf{Component Layer} & \textbf{Data Type / Shape} & \textbf{Semantic Description \& Robotic Utility} \\
+\textbf{ID} & \textbf{Tên lớp ngữ nghĩa} & \textbf{Chi phí V2 (EDT)} & \textbf{Chi phí V1 (Thô)} & \textbf{ID} & \textbf{Tên lớp ngữ nghĩa} & \textbf{Chi phí V2 (EDT)} & \textbf{Chi phí V1 (Thô)} \\
 \midrule
-\texttt{elevation}   & \texttt{float32} ($H \times W$) & 2.5D ground surface elevation model (meters). \\
-\texttt{semantic}    & \texttt{uint32} ($H \times W$)  & Dominant semantic class determined via Majority Voting. \\
-\texttt{slope}       & \texttt{float32} ($H \times W$) & Terrain inclination angle computed from elevation gradients (radians). \\
-\texttt{roughness}   & \texttt{float32} ($H \times W$) & Local surface roughness derived from elevation standard deviation. \\
-\texttt{costmap}     & \texttt{uint8} ($H \times W$)   & Fused traversability navigation costmap ($0 - 255$). \\
-\texttt{valid\_mask} & \texttt{bool} ($H \times W$)    & Binary validity mask indicating cells populated with LiDAR points. \\
+0  & Void (Ô trống)     & 100 & 150 & 12 & Building (Tòa nhà) & \textbf{255 (Cấm đi)} & \textbf{255 (Cấm)} \\
+1  & Dirt (Đất nền cứng) & 15 & 20 & 15 & Log (Thân gỗ đổ)   & \textbf{255 (Cấm đi)} & 100 \\
+3  & Grass (Cỏ)         & 35 & 40 & 17 & Person (Người)     & \textbf{255 (Cấm đi)} & \textbf{255 (Cấm)} \\
+4  & Tree (Cây cối)     & \textbf{255 (Cấm đi)} & \textbf{255 (Cấm)} & 18 & Fence (Hàng rào)   & \textbf{255 (Cấm đi)} & \textbf{255 (Cấm)} \\
+5  & Pole (Cột điện/biển)& \textbf{255 (Cấm đi)} & \textbf{255 (Cấm)} & 19 & Bush (Bụi rậm)     & 120 (Phạt mềm) & \textbf{255 (Cấm)} \\
+6  & Water (Nước sâu)   & \textbf{255 (Cấm đi)} & \textbf{255 (Cấm)} & 23 & Concrete (Bê tông) & 10 & 10 \\
+7  & Sky (Nhiễu bầu trời)& 100 & -- & 27 & Barrier (Rào chắn) & \textbf{255 (Cấm đi)} & \textbf{255 (Cấm)} \\
+8  & Vehicle (Xe cộ)    & \textbf{255 (Cấm đi)} & \textbf{255 (Cấm)} & 31 & Puddle (Vũng nước) & 75 & 80 \\
+9  & Object (Vật thể lạ) & \textbf{255 (Cấm đi)} & -- & 33 & Mud (Bùn lầy)      & 110 & 70 \\
+10 & Asphalt (Đường nhựa)& 10 & 10 & 34 & Rubble (Đá vụn)    & 90 & 90 \\
 \bottomrule
-\end{tabular*}
+\end{tabular}%
+}
 \end{table}
 
-\subsection{Step 1: Point Cloud Extraction and Region of Interest (ROI) Filtering}
-\label{subsec:step1_roi}
-The point cloud data is loaded as \texttt{float32} tensors and reshaped into an $N \times 4$ array. Semantic labels are unpacked from raw 32-bit words using bitwise masking:
+\subsection{Vùng mù cảm biến và Sự khác biệt giữa lưới BEV với lưới Quy hoạch}
+\label{subsec:coords}
+Trong miền không gian quan tâm (Region of Interest -- ROI) được lựa chọn:
 \begin{equation}
-    \text{semantic\_id} = \text{label\_raw} \ \& \ \text{0xFFFF}
+    x \in [-10.0, 30.0)\,\text{m}, \quad y \in [-15.0, 15.0)\,\text{m}, \quad z \in [-3.0, 5.0)\,\text{m},
 \end{equation}
-To focus computational resources on the immediate traversable horizon and filter out distant ambient returns, the point cloud is bounded within a Region of Interest (ROI):
-\begin{equation}
-    x \in [x_{\min}, x_{\max}] = [-10.0\text{m}, 30.0\text{m}], \quad y \in [y_{\min}, y_{\max}] = [-15.0\text{m}, 15.0\text{m}]
-\end{equation}
-With a fixed grid resolution of $\text{res} = 0.2\text{m}$, the resulting grid matrix dimensions are:
-\begin{equation}
-    W = \frac{x_{\max} - x_{\min}}{\text{res}} = \frac{30 - (-10)}{0.2} = 200, \quad 
-    H = \frac{y_{\max} - y_{\min}}{\text{res}} = \frac{15 - (-15)}{0.2} = 150
-\end{equation}
-Consequently, each LiDAR frame is discretized into a raster grid of $150 \times 200$ cells spanning an area of $40.0\text{m} \times 30.0\text{m}$.
+độ phân giải lưới $\text{res} = 0.2\,\text{m/ô}$ rời rạc hóa vùng lập kế hoạch cục bộ $40.0\,\text{m} \times 30.0\,\text{m}$ thành $30{,}000$ ô lưới. Do cảm biến LiDAR được gắn trên khung chống lật của xe Polaris W-MRZR, các tia laser trong bán kính $R < 3.5\,\text{m}$ quanh gốc cảm biến hoặc bị chắn bởi chính mui xe/người lái, hoặc rơi vào vùng mù hình nón phía dưới mặt phẳng quét thấp nhất.
 
-\subsection{Step 2: 2.5D Elevation Grid, Surface Roughness, and Slope Estimation}
-\label{subsec:step2_elevation}
-For any LiDAR point $(x_k, y_k, z_k)$ falling into cell $(i, j)$, its discrete 2D spatial index is computed by:
+Đặc biệt, mô-đun trích xuất Giai đoạn 1 lưu trữ các ma trận theo thứ tự ảnh nhìn từ trên xuống (BEV) có kích thước $(H_x, W_y) = (200, 150)$, trong đó chỉ số hàng $r = \lfloor (X_{\max} - x)/\text{res} \rfloor$ chạy từ đỉnh xuống đáy ảnh (tương ứng chiều $+X$ từ mũi xe về đuôi xe) và chỉ số cột $c = \lfloor (Y_{\max} - y)/\text{res} \rfloor$ chạy từ trái sang phải ảnh (tương ứng chiều $+Y$ từ bên trái sang bên phải xe). Ngược lại, các tệp bản đồ thô ban đầu (V1) và giao diện quy hoạch quỹ đạo Descartes ở Giai đoạn 2 (\texttt{HybridMap}) định chỉ số lưới theo kích thước $(n_y, n_x) = (150, 200)$ khớp với lưới tọa độ chuẩn $XY$, nơi chỉ số hàng $i_y$ tăng dần theo chiều Bắc ($Y \in [0, 30]\,\text{m}$) và chỉ số cột $i_x$ tăng dần theo chiều Đông ($X \in [0, 40]\,\text{m}$). Việc đồng bộ hóa phép chuyển vị và đảo trục này bằng phần mềm đảm bảo sự trùng khớp không gian tuyệt đối giữa tầng nhận thức và tầng lập kế hoạch chuyển động.
+
+\section{Giai đoạn 1: Quy trình xây dựng bản đồ địa hình 2.5D đa tầng}
+\label{sec:phase1}
+
+Để khắc phục tính thưa thớt của tia quét và nhiễu vòm cây trong từng khung LiDAR đơn lẻ mà vẫn đảm bảo tốc độ tính toán vector hóa, gói \texttt{rellis\_25d\_generator} thực thi ba bước xử lý liên tiếp trên NumPy/SciPy.
+
+\subsection{Bước 1: Cắt lọc vùng ROI và Loại bỏ thân xe Polaris W-MRZR}
+Đám mây điểm thô đầu tiên được giới hạn trong miền hộp $[X_{\min}, X_{\max}) \times [Y_{\min}, Y_{\max}) \times [Z_{\min}, Z_{\max})$. Trong quy trình tiền xử lý (\texttt{preprocess\_point\_cloud}, \texttt{filter\_ego=True}), toàn bộ các điểm phản xạ nằm trong hộp bao khung gầm xe Polaris W-MRZR và người ngồi lái:
 \begin{equation}
-    \text{grid}_x = \left\lfloor \frac{x_k - x_{\min}}{\text{res}} \right\rfloor, \quad 
-    \text{grid}_y = \left\lfloor \frac{y_k - y_{\min}}{\text{res}} \right\rfloor
+    x \in [-1.2, 2.4]\,\text{m} \;\land\; y \in [-1.3, 1.3]\,\text{m} \;\land\; z \ge -1.3\,\text{m},
 \end{equation}
-Let $Z_{i,j}$ denote the set of vertical heights of all points indexed to cell $(i, j)$:
-\begin{itemize}
-    \item \textbf{Ground Elevation ($\text{Elevation}$):} Rather than adopting the arithmetic mean or maximum (which are severely corrupted by tree canopies and tall grass), we estimate ground elevation using the \textbf{25th percentile} of $Z_{i,j}$:
-    \begin{equation}
-        \text{elevation}(i, j) = \text{percentile}\left(Z_{i,j}, 25\right)
-    \end{equation}
-    \item \textbf{Surface Roughness ($\text{Roughness}$):} Quantifies local terrain irregularity and micro-undulations via the standard deviation of $Z_{i,j}$:
-    \begin{equation}
-        \text{roughness}(i, j) = \text{std}\left(Z_{i,j}\right)
-    \end{equation}
-    \item \textbf{Terrain Slope Angle ($\text{Slope}$):} Derived from the 2D spatial gradients of the continuous elevation matrix:
-    \begin{equation}
-        \text{slope}(i, j) = \arctan\left(\sqrt{\left(\frac{\partial z}{\partial x}\right)^2 + \left(\frac{\partial z}{\partial y}\right)^2}\right)
-    \end{equation}
-\end{itemize}
+được loại bỏ hoàn toàn trước khi lượng tử hóa vào ô lưới. Nếu thiếu bộ lọc này (như trong phiên bản bản đồ thô V1 ban đầu), các điểm phản xạ từ khung mui xe sẽ tạo ra cụm gai độ cao giả ngay tại tâm cảm biến $(x, y) = (0, 0)$ (tương ứng tọa độ quy hoạch $(10.0, 15.0)\,\text{m}$), gây bít tắc các thuật toán tìm đường xuất phát từ vị trí hiện tại của robot.
 
-\subsection{Step 3: Semantic Label Integration and Traversability Costmap Synthesis}
-\label{subsec:step3_costmap}
-Each raster cell contains multiple point returns with potentially differing semantic classifications. We implement \textbf{Majority Voting} to assign the prevailing class. However, under strict safety-first operational principles, if any point within a cell belongs to a critical obstacle class:
+\subsection{Bước 2: Cao độ chống nhiễu tán cây, Bầu chọn ngữ nghĩa 16-Bit và Nội suy EDT}
+Mỗi điểm hợp lệ $(x_k, y_k, z_k, c_k)$ được ánh xạ vào chỉ số ô phẳng $u_k = r_k W_y + c_k$. Gọi $\mathcal{Z}_u$ là tập hợp các giá trị độ cao rơi vào ô $u$ với số lượng điểm $n_u = |\mathcal{Z}_u| > 0$. Các đặc trưng hình học cơ sở của từng ô được tích lũy trong một lượt duyệt vector hóa duy nhất thông qua \texttt{np.minimum.at}, \texttt{np.maximum.at} và \texttt{np.add.at}:
 \begin{equation}
-\begin{aligned}
-    \text{Obstacle\_IDs} = \{ & 4\text{ (tree)},\ 5\text{ (pole)},\ 6\text{ (water)},\ 8\text{ (vehicle)},\ 12\text{ (building)}, \\
-    & 15\text{ (log)},\ 17\text{ (person)},\ 18\text{ (fence)},\ 19\text{ (bush)},\ 27\text{ (barrier)} \}
-\end{aligned}
+    e_u = \min_{z \in \mathcal{Z}_u} z, \qquad
+    r_u = \sqrt{\max\left(0, \frac{1}{n_u}\sum_{z \in \mathcal{Z}_u} z^2 - \bar{z}_u^2\right)}, \qquad
+    h^{\text{step}}_u = \max_{z \in \mathcal{Z}_u} z - \min_{z \in \mathcal{Z}_u} z,
 \end{equation}
-the entire cell is immediately classified as an impassable obstacle.
+đi kèm mặt nạ quan sát nhị phân $\mathbf{1}_{\text{obs}}(u) = \mathbb{I}[n_u > 0]$. Khác với phép lấy trung bình cộng hoặc phân vị cao vốn dễ bị kéo lệch bởi lá cây, phép lấy cực tiểu $z_{\min}$ giúp loại bỏ hiệu quả các tia phản xạ từ cành cây nhô ra phía trên để bám sát mặt đất chịu lực thực tế bên dưới, trong khi độ chênh cao cực đại $h^{\text{step}}_u$ vẫn giữ lại thông tin về các bậc thềm thẳng đứng (thân cây, bó vỉa, tảng đá) phục vụ kiểm tra vật cản cứng ở Bước~3.
 
-Next, semantic labels are mapped into a baseline traversal cost $\text{Cost}_{\text{semantic}}$ according to Table \ref{tab:semantic_cost_table}.
+\paragraph{Bầu chọn Ngữ nghĩa Đóng gói 16-Bit Ưu tiên An toàn (Safety-First Voting).}
+Để xác định nhãn ngữ nghĩa đại diện cho từng ô lưới mà không cần vòng lặp Python hay gặp lỗi tràn số khi mã lớp có nhiều chữ số, chỉ số ô phẳng và mã lớp 16-bit của từng điểm được đóng gói thành một khóa số nguyên 64-bit duy nhất:
+\begin{equation}
+    \kappa_k = (u_k \ll 16) \mid (c_k \ \& \ \text{0xFFFF}).
+\end{equation}
+Việc sắp xếp các cặp $(\kappa, \text{số lần xuất hiện})$ theo thứ tự giảm dần trong mỗi ô giúp trích xuất chính xác nhãn chiếm đa số. Đặc biệt, theo nguyên tắc ưu tiên an toàn tuyệt đối (safety-first), nếu \emph{bất kỳ} điểm LiDAR nào rơi vào ô $u$ thuộc tập \texttt{LETHAL\_CLASSES}, nhãn ngữ nghĩa của ô đó sẽ lập tức bị ghi đè bởi nhãn nguy hiểm chết người tương ứng—ngăn chặn triệt để tình huống $90\%$ tia quét trúng mặt đường nhựa làm lu mờ $10\%$ tia quét trúng chân người đi bộ hoặc cột sắt mảnh nằm trong cùng diện tích $0.2\,\text{m} \times 0.2\,\text{m}$.
 
-\begin{table}[width=\linewidth,cols=6,pos=htbp]
-\caption{Lookup table mapping RELLIS-3D semantic IDs to baseline traversal costs.}
-\label{tab:semantic_cost_table}
-\begin{tabular*}{\tblwidth}{@{} LLCLCL@{} }
+\paragraph{Ước lượng Vùng mù Cảm biến và Nội suy EDT Xóa Ô trống.}
+Các ô lưới không có điểm LiDAR rơi vào chia thành hai vùng có bản chất vật lý khác nhau: (i) vùng mù sát thân xe ($R < 3.5\,\text{m}$ quanh tâm cảm biến), và (ii) các khe hở giữa những vòng tia laser ở xa. Trước hết, chúng tôi lấy mẫu các ô đã quan sát được trong vành khuyên $R \in [3.0, 6.5]\,\text{m}$ ngay sát ngoài vùng mù:
+\begin{equation}
+    \hat{z}_{\text{ground}} = \operatorname{median}\left(\{e_u : \mathbf{1}_{\text{obs}}(u) \land 3.0 \le R_u \le 6.5\}\right),
+\end{equation}
+đồng thời xác định nhãn mặt đất phổ biến nhất khác \texttt{void} là $\hat{c}_{\text{ground}}$ trong cùng vành khuyên này (mặc định gán \texttt{concrete}, ID~23 nếu toàn bộ vành khuyên trống). Toàn bộ các ô chưa quan sát nằm trong vùng mù $R < 3.5\,\text{m}$ được gán $(e_u, c_u) \leftarrow (\hat{z}_{\text{ground}}, \hat{c}_{\text{ground}})$, tạo thành mặt nạ hạt giống tổng hợp $\mathcal{M}_{\text{seed}} = \mathbf{1}_{\text{obs}} \lor \mathbf{1}_{\text{blind}}$. Tiếp theo, mọi khe trống còn lại trên toàn bộ lưới $200 \times 150$ được điền đầy đồng thời bằng phép lan truyền chỉ số láng giềng gần nhất thông qua biến đổi khoảng cách Euclid 2D (\texttt{scipy.ndimage.distance\_transform\_edt} thực hiện trên $\neg\mathcal{M}_{\text{seed}}$), bảo toàn tính liên tục của cả bề mặt cao độ lẫn phân vùng ngữ nghĩa mặt đất.
+
+\paragraph{Trích xuất Độ dốc sau Làm mượt Gaussian.}
+Việc lấy sai phân hữu hạn trực tiếp trên trường độ cao nội suy láng giềng gần nhất sẽ tạo ra các gờ bậc thang vi mô tại biên các vùng Voronoi. Do đó, trường độ cao sau nội suy $E_{\text{fill}}$ được lọc thông thấp bằng nhân Gaussian đẳng hướng ($\sigma = 1.2$ ô $\approx 0.24\,\text{m}$) trước khi tính đạo hàm sai phân trung tâm:
+\begin{equation}
+    E_{\text{smooth}} = G_{\sigma=1.2} * E_{\text{fill}}, \qquad
+    \theta_{\text{slope}}(r, c) = \arctan\left(\sqrt{\left(\frac{\partial E_{\text{smooth}}}{\partial x}\right)^2 + \left(\frac{\partial E_{\text{smooth}}}{\partial y}\right)^2}\right).
+\end{equation}
+
+\subsection{Bước 3: Tổng hợp Bản đồ Chi phí (Costmap), Phình hóa An toàn và Cấu trúc Lưu trữ}
+Các thành phần chi phí hình học được chuẩn hóa tuyến tính về thang $[0, 255]$ dựa trên giới hạn cơ học của xe $\theta_{\max} = 30^\circ$ ($\approx 0.5236\,\text{rad}$) và $r_{\max} = 0.25\,\text{m}$:
+\begin{equation}
+    C_{\text{slope}} = 255 \cdot \operatorname{clip}\left(\frac{\theta_{\text{slope}}}{\theta_{\max}}, 0, 1\right), \qquad
+    C_{\text{rough}} = 255 \cdot \operatorname{clip}\left(\frac{r}{r_{\max}}, 0, 1\right),
+\end{equation}
+sau đó kết hợp tuyến tính với chi phí ngữ nghĩa cơ sở $C_{\text{sem}}$ tra cứu từ Bảng~\ref{tab:semantic_costs}:
+\begin{equation}
+    \text{Costmap}_{\text{sem+geo}} = 0.50\,C_{\text{sem}} + 0.30\,C_{\text{slope}} + 0.20\,C_{\text{rough}}, \qquad
+    \text{Costmap}_{\text{geom}} = 0.60\,C_{\text{slope}} + 0.40\,C_{\text{rough}}.
+\end{equation}
+Một ô lưới bị đánh dấu là vật cản cấm đi ($255$) nếu mang nhãn ngữ nghĩa thuộc tập \texttt{LETHAL\_CLASSES}, hoặc nếu dữ liệu hình học \emph{quan sát trực tiếp} vi phạm ngưỡng lật $\theta_{\text{slope}} \ge 30^\circ$ hay bậc cao $h^{\text{step}} \ge 0.35\,\text{m}$ (nhờ đó ngăn ngừa các sườn dốc nội suy ngoại biên ở góc xa làm bít đường đi hợp lệ). Vùng chân đế quanh vị trí xuất phát của xe ($\pm 2.2\,\text{m} \times \pm 1.4\,\text{m}$ quanh $(x=0.5\,\text{m}, y=0.0\,\text{m})$) được bảo đảm thông thoáng ($\text{Costmap} \le 25$). Cuối cùng, phép giãn nở hình thái học theo khoảng cách Manhattan 4 láng giềng (\texttt{INFLATION\_CELLS} $= 2$, tương đương vùng đệm $0.4\,\text{m}$) thiết lập vành đai bảo vệ có chi phí tối thiểu $220$ bao quanh mọi ô vật cản cứng ($255$). Bảng~\ref{tab:npz_layers} tổng hợp toàn bộ các trường dữ liệu đóng gói trong tệp nén \texttt{.npz}, bao gồm cả hai quỹ đạo A* 8 hướng cơ sở (\texttt{path\_semantic}, \texttt{path\_geom}) sử dụng hàm chi phí bước $\Delta d \cdot (1 + 8 \cdot \text{cost}/255)$ với ngưỡng thông hành $< 240$.
+
+\begin{table}[width=\linewidth,pos=htbp]
+\caption{Cấu trúc các lớp dữ liệu trong tệp \texttt{.npz} xuất bởi Giai đoạn 1 (Bản đồ hoàn thiện V2) đối chiếu với phiên bản bản đồ thô ban đầu (V1).}
+\label{tab:npz_layers}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llll}
 \toprule
-\textbf{Label ID} & \textbf{Terrain / Object Class} & \textbf{Cost} & \textbf{Label ID} & \textbf{Terrain / Object Class} & \textbf{Cost} \\
+\textbf{Khóa lưu trữ (Key)} & \textbf{Kiểu / Kích thước (Bản đồ V2)} & \textbf{Phiên bản thô (V1)} & \textbf{Ý nghĩa vật lý và Vai trò trong hệ thống} \\
 \midrule
-0  & Void / Unknown             & 150 & 17 & Person                  & 255 (Obstacle) \\
-1  & Dirt (hard ground)         & 20  & 18 & Fence                   & 255 (Obstacle) \\
-3  & Grass                      & 40  & 19 & Bush                    & 90 \\
-4  & Tree                       & 255 & 23 & Concrete                & 10 \\
-5  & Pole                       & 255 & 27 & Barrier                 & 255 (Obstacle) \\
-6  & Water (deep water body)    & 255 & 31 & Puddle (shallow water)  & 80 \\
-8  & Vehicle                    & 255 & 33 & Mud (soft soil)         & 70 \\
-10 & Asphalt                    & 10  & 34 & Rubble (debris)         & 90 \\
-15 & Log (fallen trunk)         & 100 & 12 & Building                & 255 (Obstacle) \\
+\texttt{elevation} & \texttt{float32} ($200 \times 150$) & ($150 \times 200$), $Z_{25\%}$ & Độ cao mặt đất (m); $z_{\min}$ + bù vùng mù + nội suy EDT. \\
+\texttt{slope} & \texttt{float32} ($200 \times 150$) & ($150 \times 200$), đạo hàm thô & Góc dốc địa hình (rad) tính từ $E_{\text{smooth}}$ làm mượt Gaussian ($\sigma=1.2$). \\
+\texttt{roughness} & \texttt{float32} ($200 \times 150$) & ($150 \times 200$), $\text{std}(Z)$ & Độ lệch chuẩn độ cao nội bộ từng ô $\text{std}(Z)$ (m). \\
+\texttt{step\_height} & \texttt{float32} ($200 \times 150$) & Không lưu & Độ chênh cao cực đại $z_{\max} - z_{\min}$ (m) phát hiện bậc thềm/thân cây. \\
+\texttt{semantic} & \texttt{uint16} ($200 \times 150$) & \texttt{uint16}, chưa nội suy & Mã lớp RELLIS-3D bầu chọn ưu tiên an toàn \& lan truyền EDT. \\
+\texttt{costmap} & \texttt{uint8} ($200 \times 150$) & ($150 \times 200$), không phình & Costmap kết hợp Ngữ nghĩa+Hình học đã phình hóa ($0\text{--}255$, $255=$ cấm). \\
+\texttt{costmap\_geom} & \texttt{uint8} ($200 \times 150$) & Không lưu & Costmap đối chứng hình học thuần túy ($0.60\,C_{\text{slope}} + 0.40\,C_{\text{rough}}$). \\
+\texttt{observed\_mask} & \texttt{bool} ($200 \times 150$) & \texttt{valid\_mask} (\texttt{uint8}) & Mặt nạ đánh dấu các ô có điểm LiDAR thực tế trước khi nội suy EDT. \\
+\texttt{path\_semantic}, \texttt{path\_geom} & \texttt{int64} ($K \times 2$) & Không lưu & Quỹ đạo A* 8 hướng cơ sở từ $(0,0)\,\text{m}$ tới đích $(20,2)\,\text{m}$. \\
 \bottomrule
-\end{tabular*}
+\end{tabular}%
+}
 \end{table}
 
-The final composite costmap ($\text{Costmap}$) linearly fuses semantic costs with geometric terrain hazards:
-\begin{equation}
-    \text{Costmap}(i, j) = 0.5 \times \text{Cost}_{\text{semantic}}(i, j) + 0.3 \times \text{Cost}_{\text{slope}}(i, j) + 0.2 \times \text{Cost}_{\text{roughness}}(i, j)
-\end{equation}
-Cells harboring hard obstacles or slope angles exceeding critical rollover thresholds are assigned the maximum cost of $\text{Costmap}(i, j) = 255$.
+\subsection{Trực quan hóa Đa tầng và Kiểm chứng Triển khai trên ROS 2 Jazzy}
+\label{subsec:phase1_vis_ros2}
+Hình~\ref{fig:dashboard_001} và Hình~\ref{fig:dashboard_500} minh họa trực quan toàn bộ 6 lớp bản đồ trích xuất cùng quỹ đạo A* cơ sở trên hai khung cảnh RELLIS-3D đối lập: tuyến đường bê tông ven khuôn viên trường có người đi bộ và lề cỏ thoải (Frame \texttt{00000/000001}), và đường mòn xuyên rừng bị bao vây bởi cây cổ thụ, bùn lầy, bụi rậm cùng địa hình dốc gồ ghề (Frame \texttt{00000/000500}).
 
-\subsection{Experimental Extraction Results and ROS 2 RViz2 Validation}
-\label{subsec:rviz_results}
-Fig. \ref{fig:rellis_maps} illustrates the qualitative visualization of the generated Elevation Map, Semantic Map, and Traversability Costmap extracted from a sample RELLIS-3D LiDAR frame.
+Bên cạnh đó, chúng tôi đã kiểm chứng khả năng tích hợp với hệ điều hành robot hiện đại thông qua gói \texttt{rellis\_25d\_rviz} chạy trên \textbf{ROS 2 Jazzy} \citep{macenski2022ros2}. Node ROS 2 phát đồng bộ các topic điều hướng chuẩn gồm: \texttt{/costmap\_2d} (\texttt{nav\_msgs/\allowbreak msg/\allowbreak OccupancyGrid}), \texttt{/start\_marker} và \texttt{/goal\_marker} (\texttt{visualization\_msgs/\allowbreak msg/\allowbreak Marker}), cùng \texttt{/astar\_path} (\texttt{nav\_msgs/\allowbreak msg/\allowbreak Path}). Hình~\ref{fig:rviz2} ghi lại giao diện RViz2 thực tế khi chạy trên lưới kiểm thử ban đầu trước khi áp dụng thuật toán bù vùng mù và nội suy EDT; chính kết quả quan sát trực quan khoảng trống tròn quanh tâm xe và các vòng cung khuyết dữ liệu trên RViz2 này đã đặt nền móng trực tiếp cho quy trình cải tiến nội suy ở Giai đoạn 1.
 
 \begin{figure}[htbp]
   \centering
-  \begin{minipage}{0.31\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figures/rellis_elevation.png}
-    \par\vspace{2pt}\footnotesize (a) Elevation Map
-  \end{minipage}\hfill
-  \begin{minipage}{0.31\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figures/rellis_semantic.png}
-    \par\vspace{2pt}\footnotesize (b) Semantic Map
-  \end{minipage}\hfill
-  \begin{minipage}{0.31\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figures/rellis_costmap.png}
-    \par\vspace{2pt}\footnotesize (c) Traversability Costmap
-  \end{minipage}
-  \caption{Multilayer 2.5D raster representations generated from raw RELLIS-3D LiDAR and semantic annotations.}
-  \label{fig:rellis_maps}
+  \includegraphics[width=\linewidth]{figures/fig2_phase1_dashboard_000001.png}
+  \caption{Bảng trực quan hóa 6 lớp địa hình Giai đoạn 1 trên Frame \texttt{00000/000001} (mặt đường bê tông phẳng kèm lề cỏ, vòm cây, vũng nước và người đi bộ). Kỹ thuật bù vùng mù khôi phục hoàn chỉnh miền $R < 3.5\,\text{m}$ với độ cao mặt đường liên tục và trường độ dốc mượt.}
+  \label{fig:dashboard_001}
 \end{figure}
-
-To validate the deployment readiness of the synthesized 2.5D dataset in robotic autonomy frameworks, we developed a dedicated ROS 2 package (\texttt{rellis\_25d\_rviz}) targeting \textbf{ROS 2 Jazzy}. The node \texttt{show\_costmap} deserializes the \texttt{.npz} files and publishes standard ROS topics:
-\begin{itemize}
-    \item \texttt{/costmap\_2d} (\texttt{nav\_msgs/msg/OccupancyGrid}): 2.5D traversability costmap.
-    \item \texttt{/start\_marker} and \texttt{/goal\_marker} (\texttt{visualization\_msgs/msg/Marker}): Initial pose and target objective.
-    \item \texttt{/astar\_path} (\texttt{nav\_msgs/msg/Path}): Reference trajectory synthesized by baseline grid A*.
-\end{itemize}
 
 \begin{figure}[htbp]
   \centering
-  \begin{minipage}{0.48\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figures/rellis_astar.png}
-    \par\vspace{2pt}\footnotesize (a) Planned A* path on 2.5D Costmap
-  \end{minipage}\hfill
-  \begin{minipage}{0.48\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figures/rellis_rviz2.png}
-    \par\vspace{2pt}\footnotesize (b) Live visualization in ROS 2 RViz2
-  \end{minipage}
-  \caption{Baseline A* path planning validation and real-time visualization in ROS 2 RViz2.}
-  \label{fig:rviz_demo}
+  \includegraphics[width=\linewidth]{figures/fig3_phase1_dashboard_000500.png}
+  \caption{Bảng trực quan hóa 6 lớp địa hình Giai đoạn 1 trên Frame rừng rậm \texttt{00000/000500} (chỉ có $32.0\%$ số ô có tia LiDAR trực tiếp). Tại hình~(f), đường đi \texttt{Semantic+Geo A*} chủ động vòng sang phải để tránh cụm hiểm họa ngữ nghĩa (người/bùn/cây), giúp giảm $48.69\%$ chi phí trung bình ($148.89 \to 76.39$) và né tránh hoàn toàn $51$ ô rủi ro cao ($\ge 180$) mà \texttt{Geo-Only A*} cắt ngang.}
+  \label{fig:dashboard_500}
 \end{figure}
 
-As depicted in Fig. \ref{fig:rviz_demo}, the planning algorithm successfully routes around high-cost obstacles (trees, deep mud, fences) while selecting hard dirt and low-friction grass corridors.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/rellis_rviz2.png}
+  \caption{Kiểm chứng thực tế trên ROS 2 Jazzy RViz2 (\texttt{rellis\_25d\_rviz}) hiển thị \texttt{/costmap\_2d} và \texttt{/astar\_path} trên bản đồ thử nghiệm chưa nội suy—lộ rõ vùng mù hình tròn quanh xe và các dải vòng cung khuyết dữ liệu thúc đẩy việc thiết kế thuật toán bù vùng mù và nội suy EDT ở Giai đoạn 1.}
+  \label{fig:rviz2}
+\end{figure}
 
-\section{Theoretical Foundations of Native 2.5D Path Planning Algorithms}
-\label{sec:native_theory}
+\section{Cầu nối chuẩn hóa hệ trục và Các thuật toán quy hoạch đường đi 2.5D nguyên bản}
+\label{sec:phase2_theory}
 
-While the baseline A* planner on a 2D costmap demonstrates the immediate utility of 2.5D data, it possesses inherent limitations: motion is restricted to 8 discrete grid directions, vehicle nonholonomic kinematics are neglected, and vehicle attitude dynamics (Roll/Pitch) on steep 3D terrain are not explicitly modeled.
+Mặc dù thuật toán A* trên lưới phẳng 2D giúp kiểm tra nhanh tính liên thông của bản đồ chi phí, phương pháp này giới hạn góc hướng mũi xe ở bội số $45^\circ$, bỏ qua bán kính quay vòng tối thiểu kiểu Ackermann và không kiểm tra góc nghiêng ngang (roll) hay góc chúc ngóc (pitch) của khung gầm. Do đó, Giai đoạn 2 (\texttt{path\_planning\_benchmark}) tích hợp các tệp bản đồ Giai đoạn 1 vào hệ thống đánh giá quy hoạch chuyển động 2.5D trạng thái liên tục.
 
-To address these challenges, we extend our study to investigate four native 2.5D path planners designed for rough off-road terrain.
-
-\subsection{T-Hybrid A* (Liu et al., 2023)}
-\label{subsec:thybrid_astar}
-T-Hybrid A* \citep{jiayangliu2023} explores a continuous 3D state space $s = (x, y, \theta)$ governed by the nonholonomic Ackermann bicycle kinematic model. The cumulative cost function $G(n)$ from the start node incorporates 3D Euclidean distance, steering angle variation, and instantaneous terrain traversability:
+\subsection{Chuẩn hóa Lược đồ trong MapLoader và Mô hình Dung hợp HybridMap}
+\label{subsec:bridge_hybridmap}
+\texttt{MapLoader} tự động kiểm tra tập khóa và dải kích thước của các tệp \texttt{.npz}, PyTorch \texttt{.pt} hoặc \texttt{.npy} đầu vào để nhận diện định dạng bản đồ Giai đoạn 1 (lưới BEV V2 hoàn thiện, lưới thô V1) hoặc bản đồ tổng hợp \texttt{benchnav}. Khi phát hiện cấu trúc lưới BEV $(n_x, n_y) = (200, 150)$ kèm siêu dữ liệu miền ROI và mặt nạ phụ trợ, toàn bộ các ma trận bản đồ tương ứng (\texttt{elevation}, \texttt{semantic}, \texttt{costmap}, \texttt{costmap\_geom}, \texttt{step\_height}, \texttt{observed\_mask}) được áp dụng đồng thời phép đảo chiều kép và chuyển vị:
 \begin{equation}
-    G(n) = \sum_{k=1}^m \left[ \Delta L_{3D}^{(k)} + k_{\text{steer}} \cdot |\Delta \delta^{(k)}| + k_{\tau} \cdot \left(1.0 - \tau_{\text{dyn}}(s^{(k)})\right) \right]
+    A_{\text{canon}} = A_{\text{BEV}}[::\!-1, ::\!-1]^T \in \mathbb{R}^{150 \times 200},
 \end{equation}
-where $\Delta L_{3D} = \sqrt{\Delta x^2 + \Delta y^2 + \Delta Z^2}$, $\delta$ denotes steering angle, and $\tau_{\text{dyn}}$ is bilinearly interpolated from the 2.5D Traversability matrix.
+nhằm ánh xạ hệ chỉ số $(r_{\text{BEV}}, c_{\text{BEV}})$ về đúng hệ tọa độ thế giới $X \in [0, 40]\,\text{m}$ (hướng Đông / $+x_{\text{sensor}}$ tịnh tiến $+10\,\text{m}$) và $Y \in [0, 30]\,\text{m}$ (hướng Bắc / $+y_{\text{sensor}}$ tịnh tiến $+15\,\text{m}$), khớp từng điểm ảnh với hệ quy chiếu quy hoạch chuẩn.
 
-\subsection{2.5D RRT* (Steinbauer \& Koczka, 2025)}
-\label{subsec:rrt_star_25d}
-2.5D RRT* \citep{geraldsteinbauer2025} expands a sample-based search tree over the continuous terrain manifold. To rigorously evaluate the kinematic feasibility of a state $(x, y, \theta)$, it projects a three-point wheel contact footprint ($P_{\text{rear}}$ at the rear axle, $P_{\text{front,left}}$ and $P_{\text{front,right}}$ at the front axle) onto the continuous elevation surface $Z$:
+Bên trong \texttt{HybridMap}, vector pháp tuyến bề mặt đơn vị $\mathbf{n} = (-dZ/dx, -dZ/dy, 1)^T / \|\cdot\|$, góc dốc địa hình $\rho = \arccos(n_z)$ và độ gồ ghề cục bộ $r$ (độ lệch chuẩn độ cao trên cửa sổ $3 \times 3$) được trích xuất từ ma trận độ cao $Z$. Sử dụng ngưỡng góc dốc an toàn $\rho_{\max} = 0.52\,\text{rad}$ ($\approx 29.8^\circ$), ngưỡng độ gồ ghề cục bộ $h_{\max} = 0.15\,\text{m}$, tập lớp nguy hiểm $\mathcal{C}_{\text{lethal}} = \text{LETHAL\_CLASSES}$ và ngưỡng chi phí $\text{cost}_{\text{th}} = 240$, mặt nạ vật cản nhị phân 2D được xác định theo hai chế độ:
 \begin{equation}
-    \text{Roll} = \arctan\left(\frac{Z(P_{\text{fl}}) - Z(P_{\text{fr}})}{W_{\text{wheel}}}\right), \quad 
-    \text{Pitch} = \arctan\left(\frac{\frac{Z(P_{\text{fl}}) + Z(P_{\text{fr}})}{2} - Z(P_{\text{r}})}{L_{\text{wheel}}}\right)
+    \mathbf{O}_{2\text{D}}(i_y, i_x) =
+    \begin{cases}
+        \mathbb{I}[\rho > \rho_{\max} \lor r > h_{\max}], & \text{Geometry-Only}, \\[2pt]
+        \mathbb{I}[\rho > \rho_{\max} \lor r > h_{\max} \lor c \in \mathcal{C}_{\text{lethal}} \lor \text{costmap} \ge 240], & \text{Semantic+Geo}.
+    \end{cases}
 \end{equation}
-The slope and attitude penalty along each branch is computed as:
+Đặt độ thuận lợi hình học tĩnh $\tau_{\text{geom}} = \operatorname{clip}(1 - 0.5\,(r/r_{\max}) - 0.5\,(\rho/\rho_{\max}), 0, 1)$ và trường rủi ro ngữ nghĩa chuẩn hóa $p_{\text{sem}} = \operatorname{clip}(\max(\text{costmap}, C_{\text{sem}})/255, 0, 1)$, \texttt{HybridMap} dung hợp độ thuận lợi di chuyển với trọng số pha trộn $w_{\text{sem}} = 0.50$:
 \begin{equation}
-    C_{\text{slope}}(n) = \left( \frac{w_{\text{roll}} \cdot |\text{Roll}|}{N} + \frac{w_{\text{pitch}} \cdot |\text{Pitch}|}{N} \right) \cdot w_{\text{slope}}
+    \tau_{\text{stat}} = (1 - w_{\text{sem}})\,\tau_{\text{geom}} + w_{\text{sem}}\,(1 - p_{\text{sem}}), \qquad \tau_{\text{stat}}[\mathbf{O}_{2\text{D}}] = 0.
 \end{equation}
-Whenever $\text{Roll} > \rho_{\max}$ or $\text{Pitch} > \psi_{\max}$, the candidate edge is immediately pruned to prevent rollover.
-
-\subsection{2.5D Field D* (Ferguson \& Stentz, 2005)}
-\label{subsec:field_dstar}
-2.5D Field D* \citep{fergusondavid2005} eliminates the heading discretization artifacts of conventional grid-based search by performing linear cost interpolation along cell boundaries. The synthesized path produces any-angle trajectories that continuously minimize 3D Euclidean traversal length while dynamically bypassing high-cost elevation ridges.
-
-\subsection{2.5D LazyPRM* / ArtPlanner (Wellhausen \& Hutter, 2023)}
-\label{subsec:artplanner}
-ArtPlanner \citep{lorenzwellhausen2023} constructs a probabilistic manifold roadmap over the 2.5D terrain surface. Random landmark samples are efficiently connected to nearest neighbors via a \texttt{cKDTree}. The key innovation is its \textbf{Lazy Collision Checking} paradigm: the roadmap graph is evaluated first using A*, and detailed terrain edge evaluations and roll/pitch verifications are only conducted along promising path candidates, dramatically accelerating query times.
-
-\section{Experimental Benchmarking and Dataset Quality Validation}
-\label{sec:experiments}
-
-\subsection{Experimental Setup and Evaluation Metrics}
-\label{subsec:exp_setup}
-Rigorous comparative benchmarks were conducted on two representative \texttt{.npz} terrain scenes:
+Tại mọi trạng thái liên tục $(x, y, \psi)$, \texttt{HybridMap} cung cấp hai phép chiếu tư thế thân xe 2.5D:
 \begin{itemize}
-    \item \textbf{Map \texttt{000000.npz}:} Dimensions $40.0\text{m} \times 30.0\text{m}$ ($200 \times 150$ cells at $0.2\text{m/cell}$). Features rolling slopes, isolated mounds, and wide traversable corridors.
-    \item \textbf{Map \texttt{000001.npz}:} Dimensions $40.0\text{m} \times 30.0\text{m}$. Characterized by steep ridge bands, narrow canyon corridors, and hazardous cliff edges.
+    \item \textbf{Phép chiếu Hệ trục Tiếp diện $SO(3)$ (\citealp{jiayangliu2023}):} Căn chỉnh hệ trục gắn liền thân xe $(\tilde{\mathbf{x}}_m, \tilde{\mathbf{y}}_m, \mathbf{n})$ theo pháp tuyến mặt đất $\mathbf{n}$ để xác định góc lật ngang $\phi$ (roll) và góc chúc ngóc $\theta$ (pitch), từ đó tính độ thuận lợi động $\tau_{\text{geom,dyn}} = \operatorname{clip}(1 - 0.30\,r/r_{\max} - 0.35\,|\phi|/0.35 - 0.35\,\theta/\theta_{\text{lim}}, 0, 1)$ (và dung hợp tương tự với $1 - p_{\text{sem}}$ khi bật chế độ ngữ nghĩa).
+    \item \textbf{Phép chiếu Chân đế Ba điểm Tiếp xúc (\citealp{geraldsteinbauer2025}):} Nội suy độ cao mặt đất tại ba đỉnh tam giác cứng đại diện khung gầm—trục sau $P_r = (-L/2, 0)$ và hai bánh trước $P_{fl,fr} = (L/2, \pm W/2)$ với chiều dài cơ sở $L = 0.7\,\text{m}$, chiều rộng cơ sở $W = 0.5\,\text{m}$—nhằm xác định mặt phẳng nâng đỡ thực tế và trích xuất cặp góc $(\phi, \theta)$.
 \end{itemize}
-The planning start position was configured at $S = (8.0\text{m}, 14.0\text{m})$ and target goal at $G = (34.0\text{m}, 25.5\text{m})$.
+Đặc biệt, do các thuật toán quy hoạch đều thực hiện bước mở thông vùng lân cận nhỏ ($1.0\text{--}1.2\,\text{m}$) quanh điểm xuất phát và điểm đích trực tiếp trên mảng \texttt{occupancy\_2d}, bộ công cụ đánh giá của chúng tôi khởi tạo một thể hiện \texttt{HybridMap} mới hoàn toàn thông qua hàm \texttt{make\_hmap()} trước mỗi lượt chạy \texttt{(seed, planner)}, qua đó loại bỏ triệt để hiện tượng rò rỉ trạng thái giữa các thuật toán hoặc giữa các hạt giống ngẫu nhiên.
 
-The quantitative evaluation suite comprises six rigorous metrics:
+\subsection{Bốn Thuật toán Quy hoạch Chuyển động 2.5D Nguyên bản}
+\label{subsec:planners}
 \begin{enumerate}
-    \item \textbf{Success Rate:} Ability to find a valid, collision-free trajectory from $S$ to $G$.
-    \item \textbf{Planning Time ($T_{\text{plan}}$):} Computational latency required to synthesize the trajectory (seconds).
-    \item \textbf{3D Path Length ($L_{\text{3D}}$):} Actual traversed Euclidean distance in 3D space (meters).
-    \item \textbf{Chassis Roll Standard Deviation ($\sigma_{\text{roll}}$):} Evaluates trajectory smoothness and ride stability ($^\circ$).
-    \item \textbf{Maximum Roll Angle ($\text{Max Roll}$):} Worst-case rollover risk encountered along the route ($^\circ$).
-    \item \textbf{Mean Traversability Index ($\bar{\tau}$):} Average terrain traversability score along the trajectory ($\bar{\tau} \in [0, 1]$).
+    \item \textbf{T-Hybrid A* \citep{jiayangliu2023}:} Tìm kiếm trên không gian trạng thái liên tục $SE(2)$ $(x, y, \psi)$ sử dụng các nguyên mẫu chuyển động xe đạp Ackermann tiến ($\text{bước tiến} = 0.8\,\text{m}$, $7$ góc lái rời rạc trong $[-0.55, 0.55]\,\text{rad}$, ô đóng trạng thái $0.6\,\text{m} \times 0.6\,\text{m} \times 30^\circ$, giới hạn $4{,}000$ vòng lặp) được dẫn đường bởi bản đồ heuristic Dijkstra 2D có trọng số độ dốc tính sẵn. Mỗi bước mở rộng kiểm tra điều kiện $\mathbf{O}_{2\text{D}} = 0$, giới hạn tư thế $SO(3)$ ($|\phi| \le 0.55\,\text{rad}, |\theta| \le 0.60\,\text{rad}$) và $\tilde{\tau}_{\text{dyn}} > 0.01$, đồng thời tối thiểu hóa hàm chi phí tích lũy $G(n) = \sum [\Delta s + 0.5\,|\Delta\delta| + 1.5\,(1 - \tilde{\tau}_{\text{dyn}})]$. Cơ chế nối tắt đoạn thẳng giải tích giúp tăng tốc hội tụ khi xe tiến vào bán kính $15\,\text{m}$ quanh đích.
+    \item \textbf{2.5D RRT* \citep{geraldsteinbauer2025}:} Phát triển cây lấy mẫu tiệm cận tối ưu trong không gian $SE(2)$ ($1{,}200$ vòng lặp, xác suất hướng đích $20\%$, bước mở rộng $0.8\,\text{m}$, bán kính nối lại dây $\min(3.5, 0.15\,\text{width})$). Mỗi cạnh nối kiểm tra va chạm $\mathbf{O}_{2\text{D}}$ tại 5 điểm nội suy kết hợp kiểm tra độ ổn định chân đế 3 điểm ($|\phi|, |\theta| \le 0.55\,\text{rad}$), trong khi bước chọn nút cha và tái cấu trúc cây (rewiring) tối thiểu hóa tổng chiều dài nhánh 2D cộng với chi phí phạt góc nghiêng chân đế $\left((w_{\text{roll}}|\phi| + w_{\text{pitch}}|\theta|)/N\right) w_{\text{slope}}$ ($w_{\text{roll}}=1.0, w_{\text{pitch}}=0.8, w_{\text{slope}}=2.0, N=100$).
+    \item \textbf{2.5D Field D* (Biến thể Lưới Đa hướng 16 Kết nối, lấy cảm hứng từ \citealp{fergusondavid2005}):} Trong khi công thức Field D* nguyên gốc nội suy tuyến tính chi phí liên tục trên các cạnh biên ô lưới, bộ công cụ của chúng tôi hiện thực hóa \textbf{biến thể tìm kiếm đồ thị rời rạc đa hướng 16 kết nối (16-connected any-angle lattice)} bao phủ các bước đi ngang/dọc, chéo và bước nhảy mã ($\{(\pm 1,0), (\pm 1,\pm 1), (\pm 2,\pm 1), (\pm 1,\pm 2)\}$) với hàm chi phí cạnh $d_{3\text{D}}\,(1 + 2.0\,\rho/\rho_{\max} + 1.5\,(1 - \tau_{\text{stat}}))$, loại bỏ mọi cạnh cắt qua $\mathbf{O}_{2\text{D}}$ hoặc $\rho > \rho_{\max}$, sau đó chiếu tư thế $SO(3)$ dọc theo các điểm nút quỹ đạo thu được (ngân sách tối đa $60{,}000$ lần lấy nút).
+    \item \textbf{2.5D LazyPRM* / ArtPlanner \citep{lorenzwellhausen2023}:} Lấy mẫu $1{,}800$ trạng thái tự do ($\neg\mathbf{O}_{2\text{D}}$) và kết nối thành đồ thị lộ trình $k$-láng giềng gần nhất bằng cấu trúc \texttt{scipy.spatial.cKDTree} ($k = 18$, bán kính nối tối đa $7.0\,\text{m}$, tăng cường $1.8\times$ tại điểm đầu và điểm đích). Thuật toán A* lười (lazy evaluation) chỉ kiểm tra chi tiết các cạnh nằm trên đường đi ứng viên bằng phép kiểm tra vector hóa $\mathbf{O}_{2\text{D}}$ và độ dốc lưới sai phân trung tâm ($\rho \le 0.55\,\text{rad}$) theo trọng số $d_{3\text{D}}(1 + 2.0\,\bar{\rho} + 1.5\,(1 - \bar{\tau}_{\text{stat}}))$. Cuối cùng, quỹ đạo tìm được sẽ được lấy mẫu dày đặc ở bước $0.25\,\text{m}$ để đánh giá tư thế chân đế 3 điểm.
 \end{enumerate}
 
-\subsection{Quantitative Benchmark Results}
-\label{subsec:benchmark_results}
+\section{Giao thức thực nghiệm và Hệ thống chỉ số đánh giá}
+\label{sec:protocol}
 
-\begin{table}[width=\linewidth,cols=8,pos=htbp]
-\caption{Quantitative performance benchmark of native 2.5D path planners on the generated terrain dataset (Extracted directly from automated test logs in \texttt{4. logs/}).}
-\label{tab:benchmark_results}
-\begin{tabular*}{\tblwidth}{@{} LLCCCCCC@{} }
+Toàn bộ các thực nghiệm ở Giai đoạn 1 và Giai đoạn 2 được thực thi trên môi trường Linux / Python 3.10 theo chế độ đơn luồng cô lập cho từng thuật toán (\texttt{-{}-runs 5 -{}-seed 42}, tương ứng với 5 hạt giống ngẫu nhiên độc lập $42\dots 46$). Các thuật toán tất định (\textbf{T-Hybrid A*}, \textbf{2.5D Field D*}) cho độ lệch chuẩn bằng $0$ đối với chiều dài quỹ đạo và các chỉ số an toàn hình học giữa các lần chạy nhưng phản ánh chính xác biến thiên thời gian tính toán thực tế; các thuật toán ngẫu nhiên (\textbf{2.5D RRT*}, \textbf{2.5D LazyPRM*}) được thống kê tỷ lệ thành công trên cả $5$ hạt giống cùng giá trị trung bình $\pm$ độ lệch chuẩn trên các lượt chạy thành công (hoặc các quỹ đạo tiến gần đích nhất khi tỷ lệ thành công bằng $0\%$).
+
+\subsection{Hệ thống Chỉ số Đánh giá}
+Với mỗi quỹ đạo $\mathcal{P} = \{(x_i, y_i, z_i, \psi_i, \phi_i, \theta_i, \tau_i)\}_{i=1}^M$, mô-đun \texttt{PathEvaluator} và \texttt{run\_benchmark.py} trích xuất 6 nhóm chỉ số định lượng:
+\begin{enumerate}
+    \item \textbf{Tỷ lệ thành công ($\text{SR}$, \%):} Tỷ lệ phần trăm số lượt chạy tiếp cận đích trong dung sai cho phép ($2.5\,\text{m}$ đối với tìm kiếm liên tục; $1.2\,\text{m}$ trên lưới rời rạc).
+    \item \textbf{Thời gian lập kế hoạch ($T_{\text{plan}}$, s):} Thời gian xử lý thực tế (wall-clock latency) tính bằng giây cho mỗi hạt giống.
+    \item \textbf{Chiều dài quỹ đạo 3D ($L_{\text{3D}}$, m):} Tổng khoảng cách Euclid 3D $\sum_{i=1}^{M-1} \|\mathbf{p}_{i+1} - \mathbf{p}_i\|_2$ dọc theo bề mặt địa hình.
+    \item \textbf{Độ ổn định tư thế khung gầm ($\sigma_{\text{roll}}, \text{Max Roll}$, $^\circ$):} Độ lệch chuẩn và giá trị tuyệt đối lớn nhất của góc lật ngang thân xe dọc theo quỹ đạo $\mathcal{P}$.
+    \item \textbf{Độ thuận lợi di chuyển động ($\bar{\tau}_{\text{dyn}} \in [0, 1]$):} Giá trị trung bình $\frac{1}{M}\sum_{i=1}^M \tau_i$ qua các điểm nút quỹ đạo.
+    \item \textbf{Rủi ro Bản đồ Chi phí Ngữ nghĩa ($\text{Mean CM}$, $\text{Lethal/Soft Hits}$):} Giá trị trung bình của lớp \texttt{costmap} Giai đoạn 1 ($0\text{--}255$) tại các điểm trên quỹ đạo, kèm số điểm nút đi vào ô cấm thuộc \texttt{LETHAL\_CLASSES} ($\{4,5,6,8,9,12,15,17,18,27\}$) hoặc đi vào vùng hiểm họa mềm ($\{19, 31, 33, 34\}$: bụi rậm, vũng nước, bùn lầy, đá vụn).
+\end{enumerate}
+
+\subsection{Thiết kế Thực nghiệm Ba Tuyến (Three-Track Design)}
+\begin{itemize}
+    \item \textbf{Tuyến 1 (Track 1) — Đánh giá Chất lượng Bản đồ Giai đoạn 1 \& Ablation Nội suy:} Trước hết, chúng tôi định lượng thống kê địa hình trên 5 khung quét liên tiếp (\texttt{000001}--\texttt{000005}) giữa hai phiên bản Bản đồ thô chưa nội suy (V1) và Bản đồ đã bù vùng mù/nội suy EDT (V2), kết hợp đánh giá A* cơ sở trên chuỗi 8 khung hình chuẩn \texttt{000000}--\texttt{000007}. Tiếp theo, chúng tôi chạy đối sánh cả 4 thuật toán quy hoạch 2.5D qua $5$ hạt giống trên Frame \texttt{000000} (Bản đồ thô V1 — Geo), Frame \texttt{000001} (Bản đồ thô V1 — Geo và Sem+Geo), và tệp hoàn thiện \texttt{00000\_\allowbreak 000001\_\allowbreak 25d\_\allowbreak dataset.npz} (Bản đồ EDT V2 — Geo và Sem+Geo) với cùng cặp tọa độ đầu--cuối $(8.0, 14.0) \to (34.0, 25.5)\,\text{m}$.
+    \item \textbf{Tuyến 2 (Track 2) — Kịch bản A (Tránh Người đi bộ \& Vũng nước Ven đường, Frame \texttt{00000\_000001}):} Đánh giá khả năng né tránh hiểm họa tầm ngắn từ $(2.0, 10.5) \to (9.5, 14.5)\,\text{m}$, nơi đường nối thẳng cắt trực tiếp qua cụm điểm người đi bộ (\texttt{Class 17}) và vũng nước (\texttt{Class 31}) nằm trên nền đường nhựa/bê tông bằng phẳng.
+    \item \textbf{Tuyến 3 (Track 3) — Kịch bản B1 \& B2 (Đường mòn Rừng rậm \& Hành lang Vật cản Dày đặc, Frame \texttt{00000\_000500}):} Đánh giá khả năng điều hướng trên địa hình rừng tự nhiên bị che khuất mạnh ở hai cấp độ khó xuất phát từ tâm xe $(10.0, 15.0)\,\text{m}$: đi dọc đường mòn rừng hẹp \textbf{B1} tới $(22.2, 18.4)\,\text{m}$, và xuyên qua hành lang rừng rậm nhiều vật cản \textbf{B2 Gauntlet} tới $(26.0, 15.5)\,\text{m}$.
+\end{itemize}
+
+\section{Kết quả thực nghiệm và Thảo luận}
+\label{sec:results}
+
+\subsection{Thống kê Biểu diễn Địa hình Giai đoạn 1 và Ablation Nội suy (Track 1)}
+\label{subsec:res_track1}
+
+Bảng~\ref{tab:phase1_stats} định lượng tác động cấu trúc của các bước nâng cấp ở Giai đoạn 1 trên chuỗi khung quét \texttt{000001}--\texttt{000005}. Mặc dù mật độ điểm LiDAR thô chỉ phủ trực tiếp khoảng $23.0\%\text{--}23.1\%$ tổng số ô lưới ở cả hai phiên bản, bản đồ thô V1 ban đầu để trống tới $77.03\% \pm 0.07\%$ diện tích bản đồ dưới dạng các ô \texttt{void} có độ cao $z = 0\,\text{m}$. Việc tính đạo hàm sai phân trực tiếp qua ranh giới giữa các ô có điểm và các hố $0\,\text{m}$ này làm phát sinh hàng loạt sườn dốc giả vượt ngưỡng $30^\circ$, khiến $37.50\% \pm 0.13\%$ toàn bộ diện tích bản đồ bị khóa cứng thành vật cản hình học (\texttt{Geom Occ}). Khi áp dụng kỹ thuật ước lượng vùng mù tầm gần, nội suy láng giềng gần nhất EDT và lọc mượt Gaussian $\sigma=1.2$ (Bản đồ V2), tỷ lệ ô trống chưa gán nhãn giảm mạnh xuống chỉ còn $0.04\%$ và tỷ lệ vật cản hình học giả giảm tới \textbf{$83.0\%$} (xuống mức thực tế $6.39\% \pm 0.10\%$), đồng thời nâng độ thuận lợi hình học trung bình toàn bản đồ từ $0.617$ lên $0.887$.
+
+Khi phân tích chi tiết từng khung cảnh (nửa dưới Bảng~\ref{tab:phase1_stats}), khung cảnh đường trường thoáng \texttt{00000\_000001} có góc dốc trung bình thấp ($4.05^\circ$) và độ gồ ghề nhỏ ($0.008\,\text{m}$), trong khi khung cảnh rừng rậm \texttt{00000\_000500} có góc dốc trung bình lên tới $24.87^\circ$ và cường độ costmap trung bình $201.5/255$, với $26.07\%$ tổng diện tích bản đồ ($7{,}822$ ô) có bề mặt phẳng về mặt hình học nhưng lại mang nhãn ngữ nghĩa cấm đi. Do đó, trong khi thuật toán A* 8 hướng cơ sở trên chuỗi đường phẳng \texttt{000000}--\texttt{000007} cho chi phí gần như tương đương giữa hai bản đồ ($15.35$ so với $15.34$, tỷ lệ thành công $100\%$), thì trên khung cảnh rừng rậm \texttt{00000\_000500}, việc tích hợp ngữ nghĩa giúp A* cơ sở giảm \textbf{$48.69\%$} chi phí rủi ro hành trình ($148.89 \to 76.39$) và chủ động vòng tránh $51$ ô nguy hiểm cao ($\ge 180$).
+
+\begin{table}[width=\linewidth,pos=htbp]
+\caption{Thống kê định lượng chất lượng bản đồ Giai đoạn 1 trên chuỗi \texttt{000001}--\texttt{000005} (trung bình $\pm$ độ lệch chuẩn) và đối chiếu hai khung cảnh đặc trưng (\texttt{000001} so với \texttt{000500}).}
+\label{tab:phase1_stats}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lccccccc}
 \toprule
-\textbf{Scenario} & \textbf{Algorithm} & \textbf{Success} & \textbf{$T_{\text{plan}}$ (s)} & \textbf{$L_{\text{3D}}$ (m)} & \textbf{$\sigma_{\text{roll}}$ ($^\circ$)} & \textbf{$\text{Max Roll}$ ($^\circ$)} & \textbf{$\bar{\tau}$} \\
+\textbf{Quy trình / Tập dữ liệu} & \textbf{Ô quan sát (\%)} & \textbf{Ô trống Void (\%)} & \textbf{Cấm Hình học (\%)} & \textbf{Cấm Ngữ nghĩa (\%)} & \textbf{Ô chi phí cực đại (\%)} & \textbf{Mean $\bar{\tau}_{\text{geo}}$} & \textbf{Chi phí A* Cơ sở (Sem / Geo)} \\
 \midrule
-\multirow{4}{*}{\textbf{Map 000000}} 
-& T-Hybrid A* \citep{jiayangliu2023}        & \textbf{True}  & 0.642          & 40.00          & \textbf{0.00} & \textbf{0.00}  & \textbf{1.000} \\
-& 2.5D RRT* \citep{geraldsteinbauer2025}     & \textbf{True}  & 1.177          & \textbf{34.94} & \textbf{0.00} & \textbf{0.00}  & \textbf{1.000} \\
-& 2.5D Field D* \citep{fergusondavid2005}   & \textbf{True}  & \textbf{0.486} & 39.75          & 2.09          & 25.10          & 0.995          \\
-& 2.5D LazyPRM* \citep{lorenzwellhausen2023} & \textbf{True}  & 0.510          & 40.77          & 5.11          & 28.50          & \textbf{1.000} \\
+Bản đồ thô V1 (\texttt{000001}--\texttt{000005}) & $23.14 \pm 0.08$ & $77.03 \pm 0.07$ & $37.50 \pm 0.13$ & -- & $4.86 \pm 0.05$ ($\ge 240$) & $0.617 \pm 0.001$ & -- \\
+Bản đồ nội suy EDT V2 (\texttt{000001}--\texttt{000005}) & $23.01 \pm 0.07$ & $\mathbf{0.04 \pm 0.00}$ & $\mathbf{6.39 \pm 0.10}$ & $9.34 \pm 0.08$ & $8.26 \pm 0.09$ ($=255$) & $\mathbf{0.887 \pm 0.001}$ & -- \\
 \midrule
-\multirow{4}{*}{\textbf{Map 000001}} 
-& T-Hybrid A* \citep{jiayangliu2023}        & \textbf{True}  & 1.048          & 39.61          & \textbf{0.00} & \textbf{0.00}  & \textbf{1.000} \\
-& 2.5D RRT* \citep{geraldsteinbauer2025}     & False          & 0.863          & 28.16          & \textbf{0.00} & \textbf{0.00}  & \textbf{1.000} \\
-& 2.5D Field D* \citep{fergusondavid2005}   & \textbf{True}  & \textbf{0.461} & 39.90          & 2.86          & 25.35          & 0.992          \\
-& 2.5D LazyPRM* \citep{lorenzwellhausen2023} & \textbf{True}  & 0.530          & 41.80          & 3.26          & 43.23          & 0.999          \\
+Chuỗi \texttt{000000}--\texttt{000007} (Đường phẳng) & $\approx 23.0$ & $\approx 0.04$ & $\approx 6.4$ & $\approx 9.3$ & $\approx 8.3$ ($=255$) & $\approx 0.89$ & $15.35$ / $15.34$ ($100\%$ SR) \\
+Frame \texttt{00000\_000001} (Đường phẳng) & $23.02$ & $0.04$ & $6.45$ & $9.44$ & $8.35$ ($=255$) & $0.887$ & $10.52$ / $10.55$ (tránh $0$ ô) \\
+Frame \texttt{00000\_000500} (Rừng rậm) & $32.0$ & $2.2$ & $45.96$ & $72.03$ & $62.30$ ($=255$) & $\approx 0.45$ & $\mathbf{76.39}$ / $148.89$ (tránh $\mathbf{51}$ ô) \\
 \bottomrule
-\end{tabular*}
+\end{tabular}%
+}
+\end{table}
+
+Ảnh hưởng trực tiếp của chất lượng bản đồ Giai đoạn 1 lên 4 thuật toán quy hoạch đường đi 2.5D ở Giai đoạn 2 được trình bày tại Bảng~\ref{tab:track1_planners} và trực quan hóa trong Hình~\ref{fig:inpaint_ablation}. Trên bản đồ chưa nội suy \texttt{000001.npz} (V1), chi phí phạt ô trống cao ($C_{\text{void}} = 150$) cộng hưởng với $39.3\%$ tường chắn hình học giả từ các vòng quét làm cạn kiệt ngân sách $4{,}000$ vòng lặp của \textbf{T-Hybrid A*}, dẫn đến \textbf{tỷ lệ thành công $0.0\%$ ($3.461\,\text{s}$)}, trong khi \textbf{2.5D RRT*} suy giảm tỷ lệ thành công xuống $60\%\text{--}80\%$ do bị vây quanh bởi các vành đai dốc giả sát hộp mui xe chưa lọc. Nghiêm trọng hơn, \textbf{2.5D Field D*} và \textbf{2.5D LazyPRM*} chịu dao động lật ngang rất lớn ($\text{Max Roll} = 25.35^\circ$ và $37.64^\circ\text{--}44.12^\circ$) khi bước qua các khe đứt gãy độ cao $0\,\text{m}$, thậm chí khiến Field D* cắt qua 1 ô cấm trên \texttt{000000.npz} ($\text{Lethal Hits} = 1.00$).
+
+Khi chuyển sang bản đồ đã khôi phục vùng mù và nội suy EDT \texttt{00000\_000001\_25d\_dataset.npz} (V2) trên cùng cặp tọa độ xuất phát--đích, hiệu năng của cả 4 thuật toán đồng loạt cải thiện vượt bậc:
+\begin{itemize}
+    \item \textbf{Khôi phục Hoàn toàn Tỷ lệ Thành công \& Tăng tốc $6.5$ lần:} \textbf{T-Hybrid A*} đạt tỷ lệ thành công tuyệt đối \textbf{$100.0\%$}, đồng thời rút ngắn thời gian tìm kiếm từ $1.245\,\text{s}$ (Bản đồ thô V1 Geo) xuống chỉ còn \textbf{$0.167\text{--}0.193\,\text{s}$} và rút ngắn $\approx 25\%$ chiều dài quỹ đạo ($39.61\,\text{m} \to 29.61\text{--}29.86\,\text{m}$) nhờ đi thẳng qua mặt đường bê tông thay vì phải vòng tránh vùng mù giả.
+    \item \textbf{Triệt tiêu Nguy cơ Lật ngang:} Việc xóa bỏ các bậc thềm vòng quét giúp \textbf{2.5D Field D*} giảm \textbf{$74.9\%$} góc lật cực đại ($25.35^\circ \to 6.37^\circ$) và \textbf{2.5D LazyPRM*} giảm \textbf{$83.0\text{--}85.5\%$} góc lật cực đại ($37.64^\circ\text{--}44.12^\circ \to 6.40^\circ\text{--}6.99^\circ$), kéo chỉ số rủi ro costmap trung bình từ $\approx 75.0$ xuống mức an toàn $10.4\text{--}10.9$.
+    \item \textbf{Ổn định Lấy mẫu Ngẫu nhiên:} \textbf{2.5D RRT*} tăng tỷ lệ thành công lên $100.0\%$ với góc nghiêng ngang cực kỳ êm dịu ($\text{Max Roll} = 1.59^\circ \pm 0.33^\circ$).
+\end{itemize}
+
+\begin{table}[width=\linewidth,pos=htbp]
+\caption{Kết quả thực nghiệm Ablation nội suy Tuyến 1 qua $5$ hạt giống (\texttt{seed 42..46}, $(8,14)\to(34,25.5)\,\text{m}$): Đối sánh bản đồ thô chưa nội suy (V1) với bản đồ đã bù vùng mù và nội suy EDT (V2) trên cùng khung quét \texttt{000001}.}
+\label{tab:track1_planners}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llccccccc}
+\toprule
+\textbf{Bản đồ \& Chế độ Dung hợp} & \textbf{Thuật toán} & \textbf{SR (\%)} & \textbf{$T_{\text{plan}}$ (s)} & \textbf{$L_{\text{3D}}$ (m)} & \textbf{$\sigma_{\text{roll}}$ ($^\circ$)} & \textbf{Max Roll ($^\circ$)} & \textbf{$\bar{\tau}_{\text{dyn}}$ / Mean CM} \\
+\midrule
+\multirow{4}{*}{\textbf{\texttt{000000} Bản đồ thô V1 (Geo)}}
+& T-Hybrid A*   & $100.0$ & $0.578 \pm 0.009$ & $40.00 \pm 0.00$ & $0.00$ & $0.00 \pm 0.00$ & $1.000$ / $75.0$ \\
+& 2.5D RRT*     & $60.0$  & $0.952 \pm 0.136$ & $37.91 \pm 2.72$ & $0.38$ & $1.76 \pm 2.49$ & $1.000$ / $75.0$ \\
+& 2.5D Field D* & $100.0$ & $0.487 \pm 0.073$ & $39.75 \pm 0.00$ & $2.09$ & $25.10 \pm 0.00$ & $0.995$ / $76.6$ (1 Lethal) \\
+& 2.5D LazyPRM* & $100.0$ & $0.476 \pm 0.015$ & $40.40 \pm 0.34$ & $2.10$ & $23.66 \pm 25.12$ & $0.999$ / $75.1$ \\
+\midrule
+\multirow{4}{*}{\textbf{\texttt{000001} Bản đồ thô V1 (Geo)}}
+& T-Hybrid A*   & $100.0$ & $1.245 \pm 0.241$ & $39.61 \pm 0.00$ & $0.00$ & $0.00 \pm 0.00$ & $1.000$ / $75.0$ \\
+& 2.5D RRT*     & $80.0$  & $1.014 \pm 0.383$ & $38.14 \pm 5.19$ & $3.23$ & $13.18 \pm 13.35$ & $0.997$ / $75.2$ \\
+& 2.5D Field D* & $100.0$ & $0.522 \pm 0.029$ & $39.90 \pm 0.00$ & $2.86$ & $25.35 \pm 0.00$ & $0.992$ / $75.6$ \\
+& 2.5D LazyPRM* & $100.0$ & $0.551 \pm 0.040$ & $40.72 \pm 0.32$ & $3.20$ & $37.64 \pm 21.49$ & $0.999$ / $75.1$ \\
+\midrule
+\multirow{4}{*}{\textbf{\texttt{000001} Bản đồ thô V1 (Sem+Geo)}}
+& T-Hybrid A*   & $\mathbf{0.0}$ & $3.461 \pm 0.440$ & $24.00 \pm 0.00$ & $0.55$ & $3.10 \pm 0.00$ & $0.806$ / $75.2$ \\
+& 2.5D RRT*     & $60.0$  & $0.929 \pm 0.315$ & $38.18 \pm 5.99$ & $1.94$ & $7.76 \pm 10.98$ & $0.810$ / $75.1$ \\
+& 2.5D Field D* & $100.0$ & $0.804 \pm 0.255$ & $39.90 \pm 0.00$ & $2.86$ & $25.35 \pm 0.00$ & $0.801$ / $75.6$ \\
+& 2.5D LazyPRM* & $100.0$ & $0.737 \pm 0.070$ & $40.61 \pm 0.34$ & $4.26$ & $44.12 \pm 26.94$ & $0.807$ / $75.1$ \\
+\midrule
+\multirow{4}{*}{\textbf{\texttt{000001} Bản đồ EDT V2 (Geo)}}
+& T-Hybrid A*   & $\mathbf{100.0}$ & $\mathbf{0.167 \pm 0.009}$ & $29.61 \pm 0.00$ & $1.28$ & $5.78 \pm 0.00$ & $0.972$ / $10.5$ \\
+& 2.5D RRT*     & $\mathbf{100.0}$ & $5.581 \pm 0.562$ & $\mathbf{28.75 \pm 0.10}$ & $\mathbf{0.65}$ & $\mathbf{1.59 \pm 0.33}$ & $0.972$ / $10.6$ \\
+& 2.5D Field D* & $100.0$ & $0.332 \pm 0.037$ & $28.92 \pm 0.00$ & $1.16$ & $\mathbf{6.37 \pm 0.00}$ & $0.967$ / $10.5$ \\
+& 2.5D LazyPRM* & $100.0$ & $0.298 \pm 0.034$ & $28.95 \pm 0.14$ & $1.17$ & $\mathbf{6.99 \pm 4.30}$ & $0.970$ / $10.9$ \\
+\midrule
+\multirow{4}{*}{\textbf{\texttt{000001} Bản đồ EDT V2 (Sem+Geo)}}
+& T-Hybrid A*   & $\mathbf{100.0}$ & $\mathbf{0.193 \pm 0.013}$ & $29.86 \pm 0.00$ & $1.58$ & $7.91 \pm 0.00$ & $0.953$ / $10.8$ \\
+& 2.5D RRT*     & $\mathbf{100.0}$ & $5.813 \pm 0.347$ & $\mathbf{28.75 \pm 0.10}$ & $\mathbf{0.65}$ & $\mathbf{1.59 \pm 0.33}$ & $0.954$ / $10.6$ \\
+& 2.5D Field D* & $100.0$ & $0.379 \pm 0.026$ & $28.93 \pm 0.00$ & $1.11$ & $\mathbf{6.37 \pm 0.00}$ & $0.954$ / $\mathbf{10.4}$ \\
+& 2.5D LazyPRM* & $100.0$ & $0.343 \pm 0.056$ & $28.99 \pm 0.16$ & $1.21$ & $\mathbf{6.40 \pm 3.50}$ & $0.954$ / $10.8$ \\
+\bottomrule
+\end{tabular}%
+}
 \end{table}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.92\linewidth]{figures/all_planners_000000.png}
-  \caption{Visual comparison of planned 3D trajectories (left) and 2D Traversability costmaps with path corridors (right) across all four planners on Map \texttt{000000.npz}.}
-  \label{fig:map_000000}
+  \includegraphics[width=\linewidth]{figures/fig4_inpainting_ablation.png}
+  \caption{Đối sánh trực quan Tuyến 1 trên cùng khung quét RELLIS-3D \texttt{00000/000001}: bản đồ kế thừa chưa nội suy \texttt{000001.npz} (trái) chứa $76.9\%$ ô rỗng $z=0\,\text{m}$ và $39.3\%$ tường chắn vòng quét giả buộc các thuật toán phải đi vòng xa, trong khi bản đồ Giai đoạn 1 đã nội suy (phải) khôi phục mặt đường bê tông liền mạch giúp rút ngắn $25\%$ quãng đường và giảm tối thiểu $74.9\%$ góc lật ngang.}
+  \label{fig:inpaint_ablation}
+\end{figure}
+
+\subsection{Tuyến 2 \& Tuyến 3: Quy hoạch Kết hợp Ngữ nghĩa--Hình học so với Hình học Thuần túy}
+\label{subsec:res_track23}
+
+Bảng~\ref{tab:track23_planners} tổng hợp kết quả đánh giá 5 hạt giống trên kịch bản hiểm họa người đi bộ ven đường (\textbf{Kịch bản A}), đường mòn xuyên rừng (\textbf{Kịch bản B1}) và hành lang rừng rậm phức tạp (\textbf{Kịch bản B2}), được minh họa trực quan tại Hình~\ref{fig:fusion_scenarios} và tổng hợp thống kê tại Hình~\ref{fig:summary_bars}.
+
+\paragraph{Kịch bản A — Né tránh Hiểm họa Phẳng về Hình học Ven đường (Frame \texttt{00000\_000001}).}
+Do cụm người đi bộ (\texttt{Class 17}) và vũng nước nông (\texttt{Class 31}) nằm trên mặt đường bê tông/nhựa phẳng, các bộ lập kế hoạch ở chế độ \textbf{Geometry-Only} hoàn toàn không nhận biết được mối nguy hiểm này: cả \textbf{T-Hybrid A*}, \textbf{2.5D Field D*} và \textbf{2.5D LazyPRM*} đều đạt $100\%$ thành công trong $\le 0.14\,\text{s}$ nhưng cắt thẳng qua vị trí người đi bộ ($\text{Lethal Hits} = 1.00$, $\text{Max CM} = 241\text{--}255$, Hình~\ref{fig:fusion_scenarios}a). Khi kích hoạt chế độ \textbf{Semantic+Geo}, cụm người đi bộ và vùng đệm phình hóa được khóa chặt vào mặt nạ $\mathbf{O}_{2\text{D}}$ (Hình~\ref{fig:fusion_scenarios}b), giúp giảm số điểm va chạm chết người về \textbf{$0.00$} trên toàn bộ cả 4 thuật toán, đồng thời cắt giảm mức độ tiếp xúc costmap trung bình tới \textbf{$60.2\%$} đối với \textbf{Field D*} ($72.8 \to 29.0$, thời gian $0.047\,\text{s}$) và \textbf{$62.9\%$} đối với \textbf{LazyPRM*} ($63.0 \to 23.4$, thời gian $0.082\,\text{s}$).
+
+\paragraph{Kịch bản B1 — Điều hướng Dọc Đường mòn Rừng rậm (Frame \texttt{00000\_000500}).}
+Dọc theo hành lang đường mòn xuyên rừng, \textbf{T-Hybrid A*} ($0.056\,\text{s}$), \textbf{2.5D Field D*} ($0.089\,\text{s}$) và \textbf{2.5D LazyPRM*} ($0.264\,\text{s}$) đều duy trì tỷ lệ thành công $100.0\%$ ở cả hai chế độ; tuy nhiên ở chế độ Geometry-Only, quỹ đạo của \textbf{LazyPRM*} cắt sâu vào rìa cây và bụi rậm ($\text{Lethal Hits} = 7.00$, $\text{Mean CM} = 108.5$) trước khi được chế độ Semantic+Geo kéo giảm gần một nửa chi phí rủi ro xuống còn $59.0$ ($\text{Lethal Hits} = 0.00$).
+
+\paragraph{Kịch bản B2 — Vượt Hành lang Rừng rậm Phức tạp (Gauntlet, Frame \texttt{00000\_000500}).}
+Kịch bản mở rộng cự ly $16\,\text{m}$ xuyên qua rừng rậm làm bộc lộ sự phân hóa rõ rệt về bản chất thuật toán. Ở chế độ Geometry-Only, \textbf{T-Hybrid A*} ($0.076\,\text{s}$) và \textbf{Field D*} ($0.164\,\text{s}$) đi xuyên qua các gốc cây và hố bùn có độ dốc cục bộ thấp ($\text{Lethal Hits} = 5.00\text{--}6.00$, $\text{Mean CM} = 118.4\text{--}129.3$). Khi ràng buộc ngữ nghĩa phong tỏa các đảo cây rừng này (Hình~\ref{fig:fusion_scenarios}f), cả hai thuật toán tìm kiếm đồ thị tất định có định hướng heuristic vẫn duy trì tỷ lệ thành công tuyệt đối $100.0\%$: \textbf{T-Hybrid A*} tìm ra cung đường vòng qua khoảng rừng thưa phía nam ($L_{\text{3D}} = 16.75\,\text{m}$) giúp cắt giảm \textbf{$53.6\%$} chi phí rủi ro ($129.3 \to \mathbf{60.0}$), giữ góc lật ngang cực đại ở mức an toàn $\mathbf{10.11^\circ}$ và triệt tiêu hoàn toàn va chạm cấm ($\text{Lethal Hits} = 0.00$); trong khi đó \textbf{Field D*} bám sát lách qua lối mòn phía bắc chỉ trong $\mathbf{0.174\,\text{s}}$ ($\text{Mean CM} = 99.9$, góc lật cực đại giảm từ $33.58^\circ$ xuống $22.15^\circ$). Ngược lại, hai thuật toán dựa trên lấy mẫu ngẫu nhiên đồng đều hoàn toàn thất bại trong việc tìm chuỗi mẫu nối thông qua khe hẹp ngữ nghĩa ($\text{SR} = \mathbf{0.0\%}$ đối với cả \textbf{2.5D RRT*} và \textbf{2.5D LazyPRM*}).
+
+\begin{table}[width=\linewidth,pos=htbp]
+\caption{Kết quả thực nghiệm 5 hạt giống Tuyến 2 \& Tuyến 3 (\texttt{seed 42..46}) đối sánh chế độ Geometry-Only và Semantic+Geo trên kịch bản hiểm họa ven đường (\texttt{00000\_000001}) và hai kịch bản rừng rậm (\texttt{00000\_000500}).}
+\label{tab:track23_planners}
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llccccccc}
+\toprule
+\textbf{Kịch bản \& Chế độ} & \textbf{Thuật toán} & \textbf{SR (\%)} & \textbf{$T_{\text{plan}}$ (s)} & \textbf{$L_{\text{3D}}$ (m)} & \textbf{Max Roll ($^\circ$)} & \textbf{$\bar{\tau}_{\text{dyn}}$} & \textbf{Mean CM} & \textbf{Lethal / Soft} \\
+\midrule
+\multirow{4}{*}{\textbf{Kịch bản A: Hiểm họa (Geo)}}
+& T-Hybrid A*   & $100.0$ & $0.140 \pm 0.008$ & $8.70 \pm 0.00$ & $3.92 \pm 0.00$ & $0.977$ & $59.6 \pm 0.0$ & $1.00$ / $0.00$ \\
+& 2.5D RRT*     & $100.0$ & $6.085 \pm 0.475$ & $8.80 \pm 0.06$ & $3.35 \pm 2.70$ & $0.951$ & $41.2 \pm 22.0$ & $0.00$ / $0.00$ \\
+& 2.5D Field D* & $100.0$ & $\mathbf{0.027 \pm 0.003}$ & $8.74 \pm 0.00$ & $5.88 \pm 0.00$ & $0.934$ & $72.8 \pm 0.0$ & $1.00$ / $0.00$ \\
+& 2.5D LazyPRM* & $100.0$ & $0.072 \pm 0.010$ & $8.89 \pm 0.13$ & $18.69 \pm 24.55$ & $0.948$ & $63.0 \pm 10.9$ & $1.00$ / $0.00$ \\
+\midrule
+\multirow{4}{*}{\textbf{Kịch bản A: Hiểm họa (Sem+Geo)}}
+& T-Hybrid A*   & $100.0$ & $0.141 \pm 0.011$ & $8.74 \pm 0.00$ & $5.80 \pm 0.00$ & $0.834$ & $61.1 \pm 0.0$ & $\mathbf{0.00}$ / $0.00$ \\
+& 2.5D RRT*     & $100.0$ & $6.009 \pm 0.380$ & $8.84 \pm 0.04$ & $\mathbf{2.88 \pm 1.46}$ & $0.866$ & $41.0 \pm 21.9$ & $\mathbf{0.00}$ / $0.00$ \\
+& 2.5D Field D* & $100.0$ & $\mathbf{0.047 \pm 0.003}$ & $9.12 \pm 0.00$ & $6.41 \pm 0.00$ & $0.889$ & $\mathbf{29.0 \pm 0.0}$ & $\mathbf{0.00}$ / $0.00$ \\
+& 2.5D LazyPRM* & $100.0$ & $0.082 \pm 0.008$ & $9.07 \pm 0.18$ & $5.92 \pm 1.07$ & $\mathbf{0.905}$ & $\mathbf{23.4 \pm 1.4}$ & $\mathbf{0.00}$ / $0.00$ \\
+\midrule
+\midrule
+\multirow{4}{*}{\textbf{Kịch bản B1: Đường mòn (Geo)}}
+& T-Hybrid A*   & $100.0$ & $0.072 \pm 0.010$ & $11.27 \pm 0.00$ & $10.89 \pm 0.00$ & $0.932$ & $87.4 \pm 0.0$ & $0.00$ / $6.00$ \\
+& 2.5D RRT*     & $100.0$ & $2.659 \pm 1.073$ & $12.95 \pm 0.10$ & $10.60 \pm 4.67$ & $0.877$ & $61.4 \pm 25.6$ & $0.00$ / $0.80$ \\
+& 2.5D Field D* & $100.0$ & $0.121 \pm 0.029$ & $13.52 \pm 0.00$ & $22.15 \pm 0.00$ & $0.885$ & $79.4 \pm 0.0$ & $0.00$ / $18.00$ \\
+& 2.5D LazyPRM* & $100.0$ & $0.205 \pm 0.042$ & $14.16 \pm 0.27$ & $25.01 \pm 17.32$ & $0.889$ & $108.5 \pm 13.6$ & $7.00$ / $12.60$ \\
+\midrule
+\multirow{4}{*}{\textbf{Kịch bản B1: Đường mòn (Sem+Geo)}}
+& T-Hybrid A*   & $100.0$ & $\mathbf{0.056 \pm 0.005}$ & $13.00 \pm 0.00$ & $11.24 \pm 0.00$ & $0.727$ & $95.0 \pm 0.0$ & $\mathbf{0.00}$ / $7.00$ \\
+& 2.5D RRT*     & $80.0$  & $2.246 \pm 1.032$ & $\mathbf{12.82 \pm 0.04}$ & $\mathbf{9.84 \pm 3.84}$ & $\mathbf{0.799}$ & $\mathbf{51.3 \pm 15.5}$ & $\mathbf{0.00}$ / $0.75$ \\
+& 2.5D Field D* & $100.0$ & $0.089 \pm 0.001$ & $13.38 \pm 0.00$ & $22.15 \pm 0.00$ & $0.755$ & $74.0 \pm 0.0$ & $\mathbf{0.00}$ / $14.00$ \\
+& 2.5D LazyPRM* & $100.0$ & $0.264 \pm 0.013$ & $13.75 \pm 0.13$ & $37.97 \pm 16.99$ & $0.783$ & $59.0 \pm 10.4$ & $\mathbf{0.00}$ / $11.60$ \\
+\midrule
+\midrule
+\multirow{4}{*}{\textbf{Kịch bản B2: Gauntlet (Geo)}}
+& T-Hybrid A*   & $100.0$ & $0.076 \pm 0.012$ & $15.27 \pm 0.00$ & $10.89 \pm 0.00$ & $0.932$ & $129.3 \pm 0.0$ & $5.00$ / $6.00$ \\
+& 2.5D RRT*     & $80.0$  & $0.649 \pm 0.150$ & $17.58 \pm 0.18$ & $15.17 \pm 9.35$ & $0.855$ & $124.1 \pm 17.9$ & $1.25$ / $2.25$ \\
+& 2.5D Field D* & $100.0$ & $0.164 \pm 0.006$ & $18.47 \pm 0.00$ & $33.58 \pm 0.00$ & $0.875$ & $118.4 \pm 0.0$ & $6.00$ / $25.00$ \\
+& 2.5D LazyPRM* & $40.0$  & $0.410 \pm 0.080$ & $21.06 \pm 1.06$ & $41.22 \pm 21.88$ & $0.887$ & $153.3 \pm 12.4$ & $30.00$ / $13.50$ \\
+\midrule
+\multirow{4}{*}{\textbf{Kịch bản B2: Gauntlet (Sem+Geo)}}
+& T-Hybrid A*   & $\mathbf{100.0}$ & $1.780 \pm 0.410$ & $\mathbf{16.75 \pm 0.00}$ & $\mathbf{10.11 \pm 0.00}$ & $\mathbf{0.778}$ & $\mathbf{60.0 \pm 0.0}$ & $\mathbf{0.00}$ / $9.00$ \\
+& 2.5D RRT*     & $0.0$   & $0.363 \pm 0.065$ & $10.18 \pm 4.18$ & $9.92 \pm 6.63$ & $0.739$ & $75.2 \pm 20.6$ & $0.00$ / $1.80$ \\
+& 2.5D Field D* & $\mathbf{100.0}$ & $\mathbf{0.174 \pm 0.013}$ & $19.10 \pm 0.00$ & $22.15 \pm 0.00$ & $0.710$ & $99.9 \pm 0.0$ & $\mathbf{0.00}$ / $23.00$ \\
+& 2.5D LazyPRM* & $0.0$   & $0.414 \pm 0.020$ & $0.00 \pm 0.00$ & $0.00 \pm 0.00$ & $0.000$ & $0.0 \pm 0.0$ & $0.00$ / $0.00$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{figures/fig6_semantic_fusion_scenarios.png}
+  \caption{Đối sánh trực quan quỹ đạo trên Kịch bản A (hàng trên), Kịch bản B1 Đường mòn rừng (hàng giữa) và Kịch bản B2 Hành lang Gauntlet (hàng dưới) giữa chế độ Geometry-Only (cột trái) và Semantic+Geo (cột phải), hiển thị đè trên nền Costmap Giai đoạn 1 cùng đường viền đen biểu thị ranh giới \texttt{occupancy\_2d}.}
+  \label{fig:fusion_scenarios}
 \end{figure}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.92\linewidth]{figures/all_planners_000001.png}
-  \caption{Visual comparison of planned 3D trajectories (left) and 2D Traversability costmaps on the steep narrow canyon topography of Map \texttt{000001.npz}.}
-  \label{fig:map_000001}
+  \includegraphics[width=\linewidth]{figures/fig7_benchmark_summary_bars.png}
+  \caption{Biểu đồ tổng hợp định lượng 5 hạt giống trên Kịch bản A, B1 và B2 ($\text{trung bình} \pm \text{độ lệch chuẩn}$): dung hợp ngữ nghĩa--hình học giúp kéo giảm rõ rệt rủi ro costmap dọc quỹ đạo trên mọi thuật toán tìm được đường, đồng thời phản ánh sự đánh đổi về thời gian tính toán và hiện tượng nghẽn mẫu trong hành lang rừng hẹp.}
+  \label{fig:summary_bars}
 \end{figure}
 
-\subsection{Computational Efficiency and Runtime Analysis}
-\label{subsec:perf_analysis}
-As documented in Table \ref{tab:benchmark_results}, \textbf{2.5D Field D*} achieves the lowest computational overhead across both test scenarios ($0.461\text{s} - 0.486\text{s}$), making it exceptionally well suited for high-frequency onboard replanning. \textbf{2.5D LazyPRM*} follows closely ($0.510\text{s} - 0.530\text{s}$), demonstrating the computational advantage of its lazy collision evaluation. In contrast, \textbf{T-Hybrid A*} and \textbf{2.5D RRT*} exhibit higher latency ($0.642\text{s} - 1.177\text{s}$) attributable to numerical integration of nonholonomic dynamics and continuous footprint pitch/roll projections.
-
-\subsection{Trajectory Quality and Vehicle Attitude Stability Analysis}
-\label{subsec:stability_analysis}
-\begin{itemize}
-    \item \textbf{Absolute Attitude Safety:} Both \textbf{T-Hybrid A*} and \textbf{2.5D RRT*} attain a perfect traversability index $\bar{\tau} = 1.000$ and zero roll angle ($\text{Max Roll} = 0.00^\circ$). Both planners deliberately avoid cross-slope traversal, prioritizing flat and predictable ground corridors.
-    \item \textbf{3D Path Length Optimization:} \textbf{2.5D Field D*} and \textbf{2.5D LazyPRM*} permit controlled chassis roll within safe bounds ($\text{Max Roll} \approx 25^\circ - 28^\circ$), effectively traversing moderate slopes to shorten 3D travel distance ($L_{\text{3D}} \approx 39.75\text{m} - 40.77\text{m}$) while maintaining high traversability scores ($\bar{\tau} \ge 0.992$).
-\end{itemize}
-
-\subsection{Adaptability to Narrow Passages and Complex Topography (Map 000001)}
-\label{subsec:narrow_passage_analysis}
-In Map \texttt{000001.npz}, which is constrained by steep cliffs and narrow valleys, sampling-based \textbf{2.5D RRT*} fails to reach the goal within the maximum iteration threshold (\texttt{Success = False}) due to the low probability of randomly sampling through narrow feasibility corridors. Conversely, deterministic graph-search methods (\textbf{T-Hybrid A*, Field D*, and LazyPRM*}) maintain a $100\%$ success rate, proving their superior robustness in highly constrained off-road environments.
-
-\subsection{Evaluation of the 2.5D Terrain Dataset Quality}
-\label{subsec:dataset_quality_eval}
-The combined results from both phases underscore the structural integrity of the synthesized dataset:
+\subsection{Phân tích Sự Đánh đổi Thuật toán và Các Giới hạn Kỹ thuật}
+\label{subsec:discussion}
+Tổng hợp kết quả từ cả ba tuyến thực nghiệm cho phép rút ra ba bài học kiến trúc quan trọng khi triển khai trên robot tự hành thực tế:
 \begin{enumerate}
-    \item \textbf{Elevation Smoothness and Noise Rejection:} The 25th-percentile elevation filtering in Step 2 of Section \ref{subsec:step2_elevation} effectively eliminates spurious outliers from tall grass and overhanging canopies, yielding a continuous, $C^1$-smooth ground elevation surface $Z(x, y)$ and accurate slope derivations $\text{Slope}(x, y)$.
-    \item \textbf{Fidelity of Traversability Modeling:} The composite costmap and traversability metric $\tau(x, y)$ establish clear boundaries between safe and hazardous regions. As illustrated in Figs. \ref{fig:map_000000} and \ref{fig:map_000001}, all algorithms cleanly steer clear of high-hazard red bands and converge on safe lower valleys to reach their targets.
+    \item \textbf{Ưu thế Vượt trội của Tìm kiếm Đồ thị Tất định trong Không gian Ngữ nghĩa Chật hẹp:} Nhờ sự dẫn đường của trường heuristic Dijkstra 2D tính trước, \textbf{T-Hybrid A*} đạt sự cân bằng tối ưu giữa tính khả thi động học ($\text{Max Roll} \le 11.24^\circ$ trên mọi bản đồ cải tiến Giai đoạn 1), thời gian phản hồi nhanh ($0.056\text{--}0.193\,\text{s}$ ở hành lang thông thoáng; $1.780\,\text{s}$ khi phải tìm đường vòng dài $16\,\text{m}$), và độ tin cậy $100\%$ ngay cả ở những kịch bản mà phương pháp lấy mẫu ngẫu nhiên thất bại hoàn toàn. Trong khi đó, biến thể lưới 16 hướng \textbf{2.5D Field D*} đạt tốc độ tính toán nhanh nhất toàn cục ($0.027\text{--}0.379\,\text{s}$) cùng tỷ lệ thành công $100\%$ trên mọi kịch bản thử nghiệm, nhưng phải đánh đổi bằng góc nghiêng ngang lớn hơn ($22.15^\circ$ khi đi cắt ngang sườn đất rừng) do hàm chi phí cạnh chỉ xét độ dốc ô lưới vô hướng mà chưa ràng buộc trực tiếp góc hướng mũi xe Ackermann.
+    \item \textbf{Điểm nghẽn Độ phức tạp $O(N^2)$ trong Thực thi 2.5D RRT* Thuần Python:} Trong không gian rộng thoáng (như bản đồ cải tiến \texttt{000001} và Kịch bản A, nơi hầu hết các nhánh ngẫu nhiên đều hợp lệ), số lượng nút trên cây RRT* tăng nhanh lên hàng trăm nút; việc duyệt tuyến tính $O(N)$ qua danh sách đối tượng Python để tìm láng giềng gần nhất và xét bán kính nối lại dây trong suốt $1{,}200$ vòng lặp đẩy thời gian chạy lên tới $5.58\text{--}6.09\,\text{s}$. Ngược lại, trên các bản đồ bị phong tỏa mạnh, phần lớn mẫu thử bị loại sớm ngay bước kiểm tra va chạm nên thời gian chạy giảm xuống còn $0.36\text{--}0.95\,\text{s}$ nhưng đi kèm tỷ lệ thành công thấp tại các nút cổ chai hẹp. Việc thay thế bước duyệt tuyến tính bằng cấu trúc cây không gian KD-tree cập nhật tăng dần kết hợp lấy mẫu định hướng (Informed/Bridge Sampling) là yêu cầu thiết yếu để đưa RRT* về thời gian thực.
+    \item \textbf{Sự Lệch pha giữa Kiểm tra Độ dốc Cạnh Lười và Đánh giá Chân đế Dày đặc trong LazyPRM*:} Trong \texttt{LazyPRMStar25D}, các cạnh trên đồ thị lộ trình được sàng lọc bằng độ dốc sai phân trung tâm của lưới (\texttt{map.slope}), vốn làm trơn nhẹ các gờ đất hẹp $1\text{--}2$ ô lưới so với phép chiếu chân đế 3 bánh xe kích thước $0.7\,\text{m} \times 0.5\,\text{m}$ khi trích xuất quỹ đạo đầu ra dày đặc ở bước $0.25\,\text{m}$. Sự khác biệt này lý giải vì sao \textbf{2.5D LazyPRM*} đạt mức rủi ro costmap trung bình rất thấp ($\text{Mean CM} = 23.4\text{--}59.0$ ở Kịch bản A và B1) nhưng đôi khi vẫn xuất hiện đỉnh nhọn góc nghiêng cục bộ ($37.97^\circ \pm 16.99^\circ$ tại B1 Sem+Geo). Việc tích hợp trực tiếp phép chiếu chân đế 3 điểm vào bước kiểm tra cạnh lười kết hợp chiến lược lấy mẫu tập trung tại khe hẹp sẽ giúp khắc phục đồng thời hiện tượng vọt góc lật và tỷ lệ thành công $0\%$ tại Kịch bản B2.
 \end{enumerate}
 
-\section{Conclusion and Future Work}
+\section{Kết luận và Hướng phát triển}
 \label{sec:conclusion}
 
-This study has presented an end-to-end framework for digital terrain modeling and off-road motion planning:
-\begin{enumerate}
-    \item We developed an automated pipeline to extract multi-layer 2.5D terrain representations from RELLIS-3D into compressed \texttt{.npz} archives, seamlessly integrating geometric and semantic properties, and verified them through ROS 2 RViz2 visualization.
-    \item We benchmarked four native 2.5D path planners on complex off-road terrains, validating vehicle kinematics, roll/pitch attitude stability, and traversability limits across varied topological landscapes.
-\end{enumerate}
+Báo cáo này đã trình bày một khung nghiên cứu hoàn chỉnh và có khả năng tái lập cao, trải dài từ khâu tiền xử lý đám mây điểm LiDAR RELLIS-3D thô đến hệ thống đánh giá đối sánh đa hạt giống cho các thuật toán quy hoạch đường đi 2.5D nguyên bản ngoài đường trường. Thông qua việc phát hiện và xử lý triệt để nhiễu khung gầm xe tự hành, sai lệch độ cao do vòm cây, vùng mù cảm biến tầm gần và các khe đứt gãy vòng quét ở Giai đoạn 1 (\texttt{rellis\_25d\_generator}), chúng tôi đã cắt giảm tỷ lệ ô trống chưa có nhãn từ $77.03\%$ xuống $0.04\%$, loại bỏ $83.0\%$ vật cản hình học giả, khôi phục tỷ lệ thành công của \textbf{T-Hybrid A*} từ $0\%$ lên $100\%$ ($0.193\,\text{s}$), đồng thời giảm $74.9\%$ góc lật ngang cực đại của \textbf{2.5D Field D*}. Việc tích hợp các bản đồ đa tầng đã đồng bộ hệ trục vào bộ công cụ đánh giá cô lập 5 hạt giống (\texttt{path\_planning\_benchmark}) tiếp tục khẳng định rằng cơ chế dung hợp ngữ nghĩa RELLIS-3D với hình học địa hình 3D giúp triệt tiêu hoàn toàn các va chạm vào vùng cấm ($\text{Lethal Hits} = 0.00$) trên các hiểm họa phẳng về hình học, đồng thời chỉ rõ các giới hạn kỹ thuật của nhóm thuật toán lấy mẫu ngẫu nhiên trong hành lang rừng rậm.
 
-Future research will focus on incorporating dynamic soil-tire traction models (slippage, sinkage, and friction) coupled with \textbf{Model Predictive Control (MPC)} to realize robust, real-time trajectory tracking under adverse off-road conditions.
+Trong tương lai, nhóm nghiên cứu định hướng mở rộng hệ thống theo ba hướng chính: (i) tích hợp ghép chuỗi đa khung quét theo thời gian (multi-frame temporal aggregation) kết hợp Odometry/ICP nhằm điền đầy các vùng bị che khuất thực sự bằng dữ liệu lịch sử trước khi nội suy EDT, (ii) áp dụng cấu trúc KD-tree động và kỹ thuật lấy mẫu cầu nối ngữ nghĩa (semantic-bridge sampling) cho \textbf{2.5D RRT*} và \textbf{2.5D LazyPRM*}, và (iii) kết nối trực tiếp quỹ đạo 2.5D đầu ra với bộ điều khiển dự báo mô hình (MPC) có xét đến động lực học trượt bánh và lún bùn trên địa hình tự nhiên.
 
-% CRediT authorship statement
-\printcredits
+% Đóng góp của các tác giả (CRediT)
+\section*{Đóng góp của các tác giả (CRediT)}
+\textbf{Đức Anh Nguyễn:} Phần mềm, Phương pháp luận, Kiểm chứng, Phân tích hình thức, Viết bản thảo gốc. \textbf{Lộc Lê:} Quản lý dữ liệu, Hình thành ý tưởng, Khảo sát thực nghiệm, Trực quan hóa. \textbf{Lâm Tuệ:} Hình thành ý tưởng, Phần mềm, Kiểm chứng, Biên tập và hiệu đính bản thảo.
 
-%% Loading bibliography style file
+%% Tài liệu tham khảo
+\renewcommand{\refname}{Tài liệu tham khảo}
 \bibliographystyle{cas-model2-names}
 \bibliography{refs}
 

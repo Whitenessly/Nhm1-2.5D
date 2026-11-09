@@ -1,4 +1,4 @@
-\begin{thebibliography}{6}
+\begin{thebibliography}{9}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\href}[2]{#2}
@@ -11,20 +11,39 @@
 \providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
 \providecommand{\bibinfo}[2]{#2}
 \ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
-%Type = Article
-\bibitem[{Endo et~al.(2024)Endo, Yamane, Shirafuji and Ota}]{endo2024}
-\bibinfo{author}{Endo, M.}, \bibinfo{author}{Yamane, K.},
-  \bibinfo{author}{Shirafuji, S.}, \bibinfo{author}{Ota, J.},
-  \bibinfo{year}{2024}.
-\newblock \bibinfo{title}{Benchnav: Simulation platform for off-road
-  navigation}.
-\newblock \bibinfo{journal}{arXiv preprint arXiv:2409.12345} \URLprefix
-  \url{https://github.com/masafumiendo/benchnav}.
+%Type = Inproceedings
+\bibitem[{Behley et~al.(2019)Behley, Garbade, Milioto, Quenzel, Behnke,
+  Stachniss and Gall}]{behley2019iccv}
+\bibinfo{author}{Behley, J.}, \bibinfo{author}{Garbade, M.},
+  \bibinfo{author}{Milioto, A.}, \bibinfo{author}{Quenzel, J.},
+  \bibinfo{author}{Behnke, S.}, \bibinfo{author}{Stachniss, C.},
+  \bibinfo{author}{Gall, J.}, \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{{SemanticKITTI}: A dataset for semantic scene
+  understanding of {LiDAR} sequences}, in: \bibinfo{booktitle}{Proc. of the
+  IEEE/CVF International Conference on Computer Vision (ICCV)}, pp.
+  \bibinfo{pages}{9297--9307}.
+%Type = Misc
+\bibitem[{Endo et~al.(2024)Endo, Honda and Ishigami}]{endo2024}
+\bibinfo{author}{Endo, M.}, \bibinfo{author}{Honda, K.},
+  \bibinfo{author}{Ishigami, G.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{{BenchNav}: Simulation platform for benchmarking
+  off-road navigation algorithms with probabilistic traversability}.
+\newblock \bibinfo{howpublished}{IEEE ICRA Workshop on Resilient Off-road
+  Autonomy (arXiv:2405.13318)}.
+\newblock \URLprefix \url{https://arxiv.org/abs/2405.13318}.
+%Type = Incollection
+\bibitem[{Fankhauser and Hutter(2016)}]{fankhauser2016grid}
+\bibinfo{author}{Fankhauser, P.}, \bibinfo{author}{Hutter, M.},
+  \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{A universal grid map library: Implementation and use
+  case for rough terrain navigation}, in: \bibinfo{editor}{Koubaa, A.} (Ed.),
+  \bibinfo{booktitle}{Robot Operating System (ROS): The Complete Reference
+  (Volume 1)}. \bibinfo{publisher}{Springer}, pp. \bibinfo{pages}{99--120}.
 %Type = Article
 \bibitem[{Ferguson and Stentz(2005)}]{fergusondavid2005}
 \bibinfo{author}{Ferguson, D.}, \bibinfo{author}{Stentz, A.},
   \bibinfo{year}{2005}.
-\newblock \bibinfo{title}{Field d*: An interpolation-based path planner and
+\newblock \bibinfo{title}{{Field D*}: An interpolation-based path planner and
   replanner}.
 \newblock \bibinfo{journal}{Robotics Research: The Eleventh International
   Symposium} , \bibinfo{pages}{239--253}.
@@ -34,14 +53,14 @@
 \bibinfo{author}{Jiang, P.}, \bibinfo{author}{Osteen, P.},
   \bibinfo{author}{Wigness, M.}, \bibinfo{author}{Saripalli, S.},
   \bibinfo{year}{2020}.
-\newblock \bibinfo{title}{Rellis-3d dataset: Data, benchmarks and analysis}.
+\newblock \bibinfo{title}{{RELLIS-3D} dataset: Data, benchmarks and analysis}.
 \newblock \bibinfo{journal}{arXiv preprint arXiv:2011.12954} \URLprefix
   \url{https://arxiv.org/abs/2011.12954}.
 %Type = Phdthesis
 \bibitem[{Koczka and Steinbauer-Wagner(2025)}]{geraldsteinbauer2025}
 \bibinfo{author}{Koczka, A.}, \bibinfo{author}{Steinbauer-Wagner, G.},
   \bibinfo{year}{2025}.
-\newblock \bibinfo{title}{Investigating 2.5D path-planning methods for
+\newblock \bibinfo{title}{Investigating {2.5D} path-planning methods for
   autonomous mobile robots in off-road scenarios}.
 \newblock Ph.D. thesis. Graz University of Technology.
 \newblock \URLprefix
@@ -57,10 +76,21 @@
   \bibinfo{volume}{8}, \bibinfo{pages}{2432--2439}.
 \newblock \URLprefix \url{https://arxiv.org/abs/2303.05304}.
 %Type = Article
+\bibitem[{Macenski et~al.(2022)Macenski, Foote, Gerkey, Lalancette and
+  Woodall}]{macenski2022ros2}
+\bibinfo{author}{Macenski, S.}, \bibinfo{author}{Foote, T.},
+  \bibinfo{author}{Gerkey, B.}, \bibinfo{author}{Lalancette, C.},
+  \bibinfo{author}{Woodall, W.}, \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Robot operating system 2: Design, architecture, and
+  uses in the wild}.
+\newblock \bibinfo{journal}{Science Robotics} \bibinfo{volume}{7},
+  \bibinfo{pages}{eabm6074}.
+\newblock \DOIprefix\doi{10.1126/scirobotics.abm6074}.
+%Type = Article
 \bibitem[{Wellhausen and Hutter(2023)}]{lorenzwellhausen2023}
 \bibinfo{author}{Wellhausen, L.}, \bibinfo{author}{Hutter, M.},
   \bibinfo{year}{2023}.
-\newblock \bibinfo{title}{Artplanner: Robust legged robot navigation in the
+\newblock \bibinfo{title}{{ArtPlanner}: Robust legged robot navigation in the
   field}.
 \newblock \bibinfo{journal}{Field Robotics} \bibinfo{volume}{3},
   \bibinfo{pages}{477--500}.

@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Raw RELLIS-3D downloads and generated outputs (reproducible locally)
+rellis_25d_generator/raw_data/
+rellis_25d_generator/output_25d/
+rellis_25d_generator/*.gif
+
