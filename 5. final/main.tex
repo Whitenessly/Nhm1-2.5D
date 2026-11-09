@@ -20,9 +20,21 @@
 \tsc{WGM}
 \tsc{QE}
 
-% Ẩn dòng chữ "Preprint submitted to Elsevier" ở chân trang trái
+% Ẩn dòng chữ "Preprint submitted to Elsevier" ở chân trang trái & hiển thị đồng tác giả cho URL Giai đoạn 1
 \ExplSyntaxOn
 \cs_set:Npn \__first_footerline: {\mbox{}}
+\RenewDocumentCommand \printurls { }
+{
+  \group_begin:
+  \tex_let:D \thefootnote \relax \footnotetext
+  {
+    \raggedright
+    \includegraphics[height=8pt]{thumbnails/cas-url.jpeg}\c_space_token
+    \url{https://github.com/Whitenessly/Nhm1-2.5D}\space({\DJ}.A.~Nguyễn);~
+    \url{https://github.com/Jikay71/Building-a-2.5D-Dataset-from-RELLIS-3D-for-Path-Planning}\space(L.~Lê,~T.L.~Nguyễn)
+  }
+  \group_end:
+}
 \ExplSyntaxOff
 
 \begin{document}
